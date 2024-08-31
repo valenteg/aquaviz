@@ -1,21 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import Map from './pages/Map';
-import Dashboard from './pages/Dashboard';
+
+const Home = lazy(() => import('./pages/Home'));
+const Map = lazy(() => import('./pages/Map'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="map" element={<Map />} />
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route index element={
+            <Suspense fallback={<div className="flex justify-center items-center h-full">Loading...</div>}>
+              <Home />
+            </Suspense>
+          } />
+          <Route path="map" element={
+            <Suspense fallback={<div className="flex justify-center items-center h-full">Loading...</div>}>
+              <Map />
+            </Suspense>
+          } />
+          <Route path="dashboard" element={
+            <Suspense fallback={<div className="flex justify-center items-center h-full">Loading...</div>}>
+              <Dashboard />
+            </Suspense>
+          } />
+          <Route path="*" element={
+            <Suspense fallback={<div className="flex justify-center items-center h-full">Loading...</div>}>
+              <NotFound />
+            </Suspense>
+          } />
         </Route>
       </Routes>
     </Router>
