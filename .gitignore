@@ -25,4 +25,8 @@ dist-ssr
 
 aquaviz-tech-stack.md
 .cursorrules
+
+# Environment variables
 .env
+.env.*
+!.env.example
