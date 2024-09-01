@@ -8,8 +8,22 @@ import { LoginForm } from './components/LoginForm';
 import { SignupForm } from './components/SignupForm';
 import { NotFound } from './pages/NotFound';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { useAuthCheck } from './hooks/useAuthCheck';
+import { useAuthStore } from './stores/authStore';
+import { LoadingSpinner } from './components/ui/loading-spinner';
 
 function App() {
+  useAuthCheck();
+  const isLoading = useAuthStore((state) => state.isLoading);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <LoadingSpinner size={40} />
+      </div>
+    );
+  }
+
   return (
     <ThemeProvider defaultTheme="system" storageKey="aquaviz-theme">
       <Router>
@@ -17,7 +31,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
           <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
             <Route path="/map" element={<ProtectedRoute><Map /></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />

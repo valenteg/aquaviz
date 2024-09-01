@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Moon, Sun, Menu, LogOut, User } from 'lucide-react';
+import { Moon, Sun, Menu, LogOut } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import {
@@ -16,6 +16,12 @@ import { useTheme } from './ThemeProvider';
 export const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
   const { setTheme } = useTheme();
   const { user, signOut } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/login');
+  };
 
   return (
     <header className="bg-background border-b px-6 py-3 flex justify-between items-center sticky top-0 z-10">
@@ -60,16 +66,12 @@ export const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{user.name}</p>
-                  <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  <p className="text-sm font-medium leading-none">{user.email}</p>
+                  <p className="text-xs leading-none text-muted-foreground">Logged in</p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={signOut}>
+              <DropdownMenuItem onClick={handleSignOut}>
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
               </DropdownMenuItem>
