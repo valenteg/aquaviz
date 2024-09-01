@@ -23,8 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-# Ignore all files in the scope folder
-scope/**
+# Ignore all files in the aquaviz-project-context folder
+aquaviz-project-context/**
 
 .cursorrules
 
