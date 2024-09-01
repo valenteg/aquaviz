@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuthStore } from '../stores/authStore'
+import { useAuthStore } from '@/store/auth/authStore'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"

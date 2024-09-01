@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Home, Map, BarChart2, ChevronLeft, ChevronRight } from 'lucide-react';
-import { cn } from '../lib/utils';
-import { ScrollArea } from './ui/scroll-area';
-import { Button } from './ui/button';
+import { cn } from '../../lib/utils';
+import { ScrollArea } from '../ui/scroll-area';
+import { Button } from '../ui/button';
 
 const navItems = [
   { to: '/', icon: Home, label: 'Home' },
@@ -11,7 +11,7 @@ const navItems = [
   { to: '/dashboard', icon: BarChart2, label: 'Dashboard' },
 ];
 
-export const Sidebar = ({ isOpen }: { isOpen: boolean; toggleSidebar: () => void }) => {
+export const Sidebar = ({ isOpen, toggleSidebar }: { isOpen: boolean; toggleSidebar: () => void }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
@@ -47,6 +47,11 @@ export const Sidebar = ({ isOpen }: { isOpen: boolean; toggleSidebar: () => void
                     isCollapsed && 'justify-center'
                   )
                 }
+                onClick={() => {
+                  if (!isCollapsed) {
+                    toggleSidebar();
+                  }
+                }}
               >
                 <Icon className="h-5 w-5" />
                 {!isCollapsed && <span>{label}</span>}

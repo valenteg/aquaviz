@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { Moon, Sun, Menu, LogOut } from 'lucide-react';
-import { useAuthStore } from '../stores/authStore';
-import { Avatar, AvatarFallback } from './ui/avatar';
+import { useAuthStore } from '@/store/auth/authStore';
+import { Avatar, AvatarFallback } from '../ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { useTheme } from './ThemeProvider';
+} from '../ui/dropdown-menu';
+import { useTheme } from '../../providers/ThemeProvider';
 
 export const Header = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
   const { setTheme } = useTheme();

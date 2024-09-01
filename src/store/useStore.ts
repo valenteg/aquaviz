@@ -13,7 +13,6 @@ interface Farm {
 interface EnvironmentalData {
   temperature: number;
   salinity: number;
-  // Add more parameters as needed
 }
 
 interface AppState {

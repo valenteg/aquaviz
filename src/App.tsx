@@ -1,15 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './components/ThemeProvider';
-import { Layout } from './components/Layout';
-import { Home } from './pages/Home';
-import { Map } from './pages/Map';
-import { Dashboard } from './pages/Dashboard';
-import { LoginForm } from './components/LoginForm';
-import { SignupForm } from './components/SignupForm';
-import { NotFound } from './pages/NotFound';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider } from './providers/ThemeProvider';
+import { AppRoutes } from './routes';
 import { useAuthCheck } from './hooks/useAuthCheck';
-import { useAuthStore } from './stores/authStore';
+import { useAuthStore } from './store/auth/authStore';
 import { LoadingSpinner } from './components/ui/loading-spinner';
 
 function App() {
@@ -27,16 +20,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="system" storageKey="aquaviz-theme">
       <Router>
-        <Routes>
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/signup" element={<SignupForm />} />
-          <Route element={<Layout />}>
-            <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-            <Route path="/map" element={<ProtectedRoute><Map /></ProtectedRoute>} />
-            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
+        <AppRoutes />
       </Router>
     </ThemeProvider>
   );
