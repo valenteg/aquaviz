@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
-import { ThemeProvider } from './ThemeProvider';
+import Footer from './Footer';
 
 export const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -10,16 +10,15 @@ export const Layout = () => {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="flex h-screen overflow-hidden">
-        <Sidebar isOpen={sidebarOpen} />
-        <div className="flex flex-col flex-1 overflow-hidden">
-          <Header toggleSidebar={toggleSidebar} />
-          <main className="flex-1 overflow-auto p-6">
-            <Outlet />
-          </main>
-        </div>
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <Header toggleSidebar={toggleSidebar} />
+        <main className="flex-1 overflow-auto p-6">
+          <Outlet />
+        </main>
+        <Footer />
       </div>
-    </ThemeProvider>
+    </div>
   );
 };
