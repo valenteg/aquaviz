@@ -1,21 +1,25 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
-import Sidebar from './Sidebar';
+import { Header } from './Header';
+import { Sidebar } from './Sidebar';
+import { ThemeProvider } from './ThemeProvider';
 
-function Layout() {
+export const Layout = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <Header />
-      <div className="flex flex-1">
-        <Sidebar />
-        <main className="flex-1 p-6 overflow-auto">
-          <Outlet />
-        </main>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="flex h-screen overflow-hidden">
+        <Sidebar isOpen={sidebarOpen} />
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <Header toggleSidebar={toggleSidebar} />
+          <main className="flex-1 overflow-auto p-6">
+            <Outlet />
+          </main>
+        </div>
       </div>
-      <Footer />
-    </div>
+    </ThemeProvider>
   );
-}
-
-export default Layout;
+};

@@ -1,6 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_ANON_KEY');
+import { supabase } from '../lib/supabase';
 
 // Mock data
 const mockFarms = [
@@ -25,3 +23,5 @@ export const fetchEnvironmentalData = async (farmId: string) => {
   await new Promise(resolve => setTimeout(resolve, 500));
   return { ...mockEnvironmentalData, farmId };
 };
+
+// You can add more Supabase-related API calls here if needed

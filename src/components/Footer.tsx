@@ -1,5 +1,3 @@
-import { Separator } from "./ui/separator";
-
 function Footer() {
   return (
     <footer className="bg-background border-t py-6">

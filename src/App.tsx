@@ -1,18 +1,28 @@
-import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import { ThemeProvider } from './providers/ThemeProvider';
-
-const Home = lazy(() => import('./pages/Home'));
-const Map = lazy(() => import('./pages/Map'));
-const Dashboard = lazy(() => import('./pages/Dashboard'));
-const NotFound = lazy(() => import('./pages/NotFound'));
+import { ThemeProvider } from './components/ThemeProvider';
+import { Layout } from './components/Layout';
+import { Home } from './pages/Home';
+import { Map } from './pages/Map';
+import { Dashboard } from './pages/Dashboard';
+import { LoginForm } from './components/LoginForm';
+import { SignupForm } from './components/SignupForm';
+import { NotFound } from './pages/NotFound';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider defaultTheme="system" storageKey="aquaviz-theme">
       <Router>
-        <Layout />
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/map" element={<ProtectedRoute><Map /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
       </Router>
     </ThemeProvider>
   );

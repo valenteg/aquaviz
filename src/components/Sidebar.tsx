@@ -1,30 +1,40 @@
-import { Button } from "./ui/button";
-import { ScrollArea } from "./ui/scroll-area";
-import { Separator } from "./ui/separator";
+import { NavLink } from 'react-router-dom';
+import { Home, Map, BarChart2 } from 'lucide-react';
+import { cn } from '../lib/utils';
+import { ScrollArea } from './ui/scroll-area';
 
-function Sidebar() {
-  return (
-    <aside className="w-64 bg-background border-r h-[calc(100vh-4rem)] sticky top-16">
-      <ScrollArea className="h-full py-4">
-        <div className="px-4">
-          <h2 className="text-lg font-semibold mb-4">Quick Access</h2>
-          <div className="space-y-2">
-            <Button variant="ghost" className="w-full justify-start">Tool 1</Button>
-            <Button variant="ghost" className="w-full justify-start">Tool 2</Button>
-            <Button variant="ghost" className="w-full justify-start">Tool 3</Button>
-          </div>
-        </div>
-        <Separator className="my-4" />
-        <div className="px-4">
-          <h2 className="text-lg font-semibold mb-4">Recent</h2>
-          <div className="space-y-2">
-            <Button variant="link" className="w-full justify-start">Recent Item 1</Button>
-            <Button variant="link" className="w-full justify-start">Recent Item 2</Button>
-          </div>
-        </div>
-      </ScrollArea>
-    </aside>
-  );
-}
+const navItems = [
+  { to: '/', icon: Home, label: 'Home' },
+  { to: '/map', icon: Map, label: 'Map' },
+  { to: '/dashboard', icon: BarChart2, label: 'Dashboard' },
+];
 
-export default Sidebar;
+export const Sidebar = ({ isOpen }: { isOpen: boolean }) => (
+  <div className={cn(
+    "bg-background border-r w-64 h-screen fixed left-0 top-0 transition-transform duration-300 ease-in-out transform z-50",
+    isOpen ? "translate-x-0" : "-translate-x-full",
+    "md:translate-x-0"
+  )}>
+    <ScrollArea className="h-full py-6">
+      <nav className="space-y-2 px-4">
+        {navItems.map(({ to, icon: Icon, label }) => (
+          <NavLink
+            key={to}
+            to={to}
+            className={({ isActive }) =>
+              cn(
+                'flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                isActive
+                  ? 'bg-secondary text-secondary-foreground'
+                  : 'text-muted-foreground hover:bg-secondary hover:text-secondary-foreground'
+              )
+            }
+          >
+            <Icon className="h-5 w-5" />
+            <span>{label}</span>
+          </NavLink>
+        ))}
+      </nav>
+    </ScrollArea>
+  </div>
+);
