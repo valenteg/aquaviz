@@ -4,23 +4,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui
 import { AquacultureMap } from './AquacultureMap';
 
 export const Map = () => (
-  <div className="space-y-6">
+  <div className="h-full flex flex-col space-y-4">
     <div className="flex justify-between items-center">
-      <h1 className="text-3xl font-bold">Interactive Map</h1>
+      <h1 className="text-2xl font-bold">Interactive Map</h1>
       <div className="flex space-x-2">
-        <Button variant="outline">Export Data</Button>
-        <Button>Add Farm</Button>
+        <Button variant="outline" size="sm">Export Data</Button>
+        <Button size="sm">Add Farm</Button>
       </div>
     </div>
-    <Tabs defaultValue="map" className="w-full">
+    <Tabs defaultValue="map" className="flex-1 flex flex-col">
       <TabsList className="w-full justify-start">
         <TabsTrigger value="map">Map View</TabsTrigger>
         <TabsTrigger value="data">Data Layers</TabsTrigger>
         <TabsTrigger value="farms">Farm List</TabsTrigger>
       </TabsList>
-      <TabsContent value="map" className="mt-4">
-        <Card className="border-0 shadow-none">
-          <CardContent className="h-[calc(100vh-12rem)] p-0">
+      <TabsContent value="map" className="flex-1 mt-2">
+        <Card className="border-0 shadow-none h-full">
+          <CardContent className="p-0 h-full w-full">
             <AquacultureMap />
           </CardContent>
         </Card>

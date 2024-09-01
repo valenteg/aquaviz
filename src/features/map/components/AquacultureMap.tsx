@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import Map, { NavigationControl } from 'react-map-gl';
+import { useState, useCallback } from 'react';
+import Map, { NavigationControl, FullscreenControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 interface AquacultureMapProps {
@@ -11,10 +11,10 @@ interface AquacultureMapProps {
 }
 
 export const AquacultureMap = ({ 
-  initialViewState = { longitude: -70.9, latitude: 42.35, zoom: 9 } 
+  initialViewState = { longitude: 173.135, latitude: -41.091 , zoom: 9 } 
 }: AquacultureMapProps) => {
   const [viewState, setViewState] = useState(initialViewState);
-  const [mapLoaded, setMapLoaded] = useState(false);
+  const [, setMapLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleMove = useCallback(({ viewState }: { viewState: any }) => {
@@ -30,14 +30,9 @@ export const AquacultureMap = ({
     setError(e.message || 'An error occurred while loading the map');
   }, []);
 
-  useEffect(() => {
-    console.log('Mapbox token:', import.meta.env.VITE_MAPBOX_ACCESS_TOKEN);
-  }, []);
-
   if (error) {
     return <div className="h-full w-full flex items-center justify-center text-red-500">{error}</div>;
   }
-
 
   return (
     <div className="h-full w-full relative">
@@ -53,9 +48,12 @@ export const AquacultureMap = ({
         reuseMaps
       >
         <NavigationControl position="top-right" />
+        <FullscreenControl position="top-right" />
       </Map>
-      <div className="absolute top-0 left-0 bg-white p-2">
-        Lng: {viewState.longitude.toFixed(4)} | Lat: {viewState.latitude.toFixed(4)} | Zoom: {viewState.zoom.toFixed(2)}
+      <div className="absolute bottom-4 left-4 bg-white bg-opacity-80 p-2 rounded-md shadow-md">
+        <p className="text-sm font-medium">
+          Lng: {viewState.longitude.toFixed(4)} | Lat: {viewState.latitude.toFixed(4)} | Zoom: {viewState.zoom.toFixed(2)}
+        </p>
       </div>
     </div>
   );

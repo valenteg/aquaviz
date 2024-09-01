@@ -5,15 +5,14 @@ import Breadcrumb from '@/components/Breadcrumb';
 import { useState } from 'react';
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleSidebar = () => setIsOpen(!isOpen);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Header toggleSidebar={toggleSidebar} />
-        <main className="flex-1 overflow-auto p-6">
+      <Sidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+      <div className={`flex flex-1 flex-col overflow-hidden transition-all duration-300 ${isExpanded ? 'ml-64' : 'ml-16'}`}>
+        <Header toggleSidebar={() => setIsExpanded(!isExpanded)} />
+        <main className="flex-1 overflow-auto p-4">
           <Breadcrumb />
           {children}
         </main>
