@@ -3,6 +3,7 @@ export interface EnvironmentalData {
   temperature: number;
   salinity: number;
   currentSpeed: number;
+  lightIntensity: number; // New field
 }
 
 export interface GrowthData {
@@ -26,13 +27,13 @@ export interface Alert {
 }
 
 export const environmentalData: EnvironmentalData[] = [
-  { date: '2023-06-10', temperature: 18, salinity: 35, currentSpeed: 0.3 },
-  { date: '2023-06-11', temperature: 19, salinity: 34, currentSpeed: 0.4 },
-  { date: '2023-06-12', temperature: 20, salinity: 33, currentSpeed: 0.5 },
-  { date: '2023-06-13', temperature: 21, salinity: 34, currentSpeed: 0.4 },
-  { date: '2023-06-14', temperature: 22, salinity: 35, currentSpeed: 0.3 },
-  { date: '2023-06-15', temperature: 23, salinity: 36, currentSpeed: 0.2 },
-  { date: '2023-06-16', temperature: 24, salinity: 35, currentSpeed: 0.3 },
+  { date: '2023-06-10', temperature: 18, salinity: 35, currentSpeed: 0.3, lightIntensity: 200 },
+  { date: '2023-06-11', temperature: 19, salinity: 34, currentSpeed: 0.4, lightIntensity: 220 },
+  { date: '2023-06-12', temperature: 20, salinity: 33, currentSpeed: 0.5, lightIntensity: 210 },
+  { date: '2023-06-13', temperature: 21, salinity: 34, currentSpeed: 0.4, lightIntensity: 230 },
+  { date: '2023-06-14', temperature: 22, salinity: 35, currentSpeed: 0.3, lightIntensity: 240 },
+  { date: '2023-06-15', temperature: 23, salinity: 36, currentSpeed: 0.2, lightIntensity: 250 },
+  { date: '2023-06-16', temperature: 24, salinity: 35, currentSpeed: 0.3, lightIntensity: 260 },
 ];
 
 export const growthData: GrowthData[] = [
@@ -94,4 +95,22 @@ export const mockAlerts: Alert[] = [
     message: 'Possible ice-ice disease detected in Eucheuma farm, immediate action required',
     timestamp: '2023-06-15T08:45:00Z'
   },
+];
+
+// New interface for nutrient data
+export interface NutrientData {
+  date: string;
+  nitrate: number;
+  phosphate: number;
+}
+
+// New nutrientData array
+export const nutrientData: NutrientData[] = [
+  { date: '2023-06-10', nitrate: 5, phosphate: 0.5 },
+  { date: '2023-06-11', nitrate: 5.5, phosphate: 0.6 },
+  { date: '2023-06-12', nitrate: 6, phosphate: 0.7 },
+  { date: '2023-06-13', nitrate: 5.8, phosphate: 0.65 },
+  { date: '2023-06-14', nitrate: 5.5, phosphate: 0.6 },
+  { date: '2023-06-15', nitrate: 5.2, phosphate: 0.55 },
+  { date: '2023-06-16', nitrate: 5, phosphate: 0.5 },
 ];
