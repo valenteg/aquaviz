@@ -1,27 +1,43 @@
 import React from 'react';
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceLine, Tooltip } from 'recharts';
 import { EnvironmentalData } from '@/data/mockData';
+import { ChartContainer } from '@/components/ui/chart';
+import { chartConfig } from '@/components/charts/chartConfig';
 
 interface Props {
   data: EnvironmentalData[];
-  dateRange: { from: Date; to: Date };
 }
 
-export const SalinityChart: React.FC<Props> = ({ data, dateRange }) => {
-  const filteredData = data.filter(d => {
-    const date = new Date(d.date);
-    return date >= dateRange.from && date <= dateRange.to;
-  });
-
+export const SalinityChart: React.FC<Props> = ({ data }) => {
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <AreaChart data={filteredData}>
-        <XAxis dataKey="date" />
-        <YAxis domain={[30, 40]} /> {/* Adjust domain based on typical salinity ranges */}
-        <Tooltip />
-        <CartesianGrid stroke="#f5f5f5" />
-        <Area type="monotone" dataKey="salinity" stroke="var(--chart-2)" fill="var(--chart-2)" fillOpacity={0.3} name="Salinity (ppt)" />
-      </AreaChart>
-    </ResponsiveContainer>
+    <ChartContainer config={chartConfig} className="h-[400px] w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart data={data}>
+          <defs>
+            <linearGradient id="salinityGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#4d79ff" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#4d79ff" stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
+          <XAxis dataKey="date" />
+          <YAxis domain={[25, 40]} />
+          <Tooltip
+            labelFormatter={(label) => new Date(label).toLocaleDateString()}
+            formatter={(value) => [`${value} ppt`, 'Salinity']}
+          />
+          <CartesianGrid strokeDasharray="3 3" />
+          <ReferenceLine y={30} stroke="#ffcc00" strokeDasharray="3 3" />
+          <ReferenceLine y={35} stroke="#ffcc00" strokeDasharray="3 3" />
+          <Area
+            type="natural"
+            dataKey="salinity"
+            stroke="url(#salinityGradient)"
+            fill="url(#salinityGradient)"
+            fillOpacity={0.3}
+            animationDuration={300}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </ChartContainer>
   );
 };

@@ -6,7 +6,7 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-muted-foreground mb-2 md:mb-0">
-            © {new Date().getFullYear()} Aquaviz. All rights reserved.
+            © {new Date().getFullYear()} Aquaviz - Aquafarming Decision Tool (Prototype). By Gabriel Valente
           </div>
           <nav>
             <ul className="flex space-x-4">

@@ -3,7 +3,7 @@ export interface EnvironmentalData {
   temperature: number;
   salinity: number;
   currentSpeed: number;
-  lightIntensity: number; // New field
+  lightIntensity: number;
 }
 
 export interface GrowthData {
@@ -27,13 +27,13 @@ export interface Alert {
 }
 
 export const environmentalData: EnvironmentalData[] = [
-  { date: '2023-06-10', temperature: 18, salinity: 35, currentSpeed: 0.3, lightIntensity: 200 },
-  { date: '2023-06-11', temperature: 19, salinity: 34, currentSpeed: 0.4, lightIntensity: 220 },
-  { date: '2023-06-12', temperature: 20, salinity: 33, currentSpeed: 0.5, lightIntensity: 210 },
-  { date: '2023-06-13', temperature: 21, salinity: 34, currentSpeed: 0.4, lightIntensity: 230 },
-  { date: '2023-06-14', temperature: 22, salinity: 35, currentSpeed: 0.3, lightIntensity: 240 },
-  { date: '2023-06-15', temperature: 23, salinity: 36, currentSpeed: 0.2, lightIntensity: 250 },
-  { date: '2023-06-16', temperature: 24, salinity: 35, currentSpeed: 0.3, lightIntensity: 260 },
+  { date: '2023-06-01', temperature: 18, salinity: 35, currentSpeed: 0.3, lightIntensity: 200 },
+  { date: '2023-06-05', temperature: 19, salinity: 34, currentSpeed: 0.4, lightIntensity: 220 },
+  { date: '2023-06-10', temperature: 20, salinity: 33, currentSpeed: 0.5, lightIntensity: 210 },
+  { date: '2023-06-15', temperature: 21, salinity: 34, currentSpeed: 0.4, lightIntensity: 230 },
+  { date: '2023-06-20', temperature: 22, salinity: 35, currentSpeed: 0.3, lightIntensity: 240 },
+  { date: '2023-06-25', temperature: 23, salinity: 36, currentSpeed: 0.2, lightIntensity: 250 },
+  { date: '2023-06-30', temperature: 24, salinity: 35, currentSpeed: 0.3, lightIntensity: 260 },
 ];
 
 export const growthData: GrowthData[] = [
