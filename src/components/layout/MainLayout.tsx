@@ -1,7 +1,7 @@
 import { Header } from '@/components/layout/Header';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Footer } from '@/components/layout/Footer';
-import Breadcrumb from '@/components/Breadcrumb';
+import Breadcrumb from '@/components/layout/Breadcrumb';
 import { useState } from 'react';
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {

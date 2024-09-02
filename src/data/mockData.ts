@@ -17,12 +17,22 @@ export interface EconomicData {
   projectedRevenue: number;
 }
 
+export interface Alert {
+  id: number;
+  type: 'temperature' | 'salinity' | 'currentSpeed' | 'pH' | 'nutrient' | 'disease';
+  severity: 'high' | 'medium' | 'low';
+  message: string;
+  timestamp: string;
+}
+
 export const environmentalData: EnvironmentalData[] = [
-  { date: '2023-01-01', temperature: 18, salinity: 35, currentSpeed: 0.5 },
-  { date: '2023-01-02', temperature: 19, salinity: 34, currentSpeed: 0.6 },
-  { date: '2023-01-03', temperature: 17, salinity: 36, currentSpeed: 0.4 },
-  { date: '2023-01-04', temperature: 18, salinity: 35, currentSpeed: 0.5 },
-  { date: '2023-01-05', temperature: 20, salinity: 33, currentSpeed: 0.7 },
+  { date: '2023-06-10', temperature: 18, salinity: 35, currentSpeed: 0.3 },
+  { date: '2023-06-11', temperature: 19, salinity: 34, currentSpeed: 0.4 },
+  { date: '2023-06-12', temperature: 20, salinity: 33, currentSpeed: 0.5 },
+  { date: '2023-06-13', temperature: 21, salinity: 34, currentSpeed: 0.4 },
+  { date: '2023-06-14', temperature: 22, salinity: 35, currentSpeed: 0.3 },
+  { date: '2023-06-15', temperature: 23, salinity: 36, currentSpeed: 0.2 },
+  { date: '2023-06-16', temperature: 24, salinity: 35, currentSpeed: 0.3 },
 ];
 
 export const growthData: GrowthData[] = [
@@ -39,4 +49,49 @@ export const economicData: EconomicData[] = [
   { date: '2023-01-03', costPerKg: 2.6, projectedRevenue: 9800 },
   { date: '2023-01-04', costPerKg: 2.3, projectedRevenue: 11000 },
   { date: '2023-01-05', costPerKg: 2.5, projectedRevenue: 10200 },
+];
+
+export const mockAlerts: Alert[] = [
+  { 
+    id: 1, 
+    type: 'temperature', 
+    severity: 'high', 
+    message: 'Water temperature exceeds 25°C, potential stress on seaweed growth',
+    timestamp: '2023-06-15T10:30:00Z'
+  },
+  { 
+    id: 2, 
+    type: 'salinity', 
+    severity: 'medium', 
+    message: 'Salinity levels dropped to 28 ppt, below optimal range for Kelp species',
+    timestamp: '2023-06-15T11:45:00Z'
+  },
+  { 
+    id: 3, 
+    type: 'currentSpeed', 
+    severity: 'low', 
+    message: 'Current speed reduced to 0.1 m/s, may affect nutrient distribution',
+    timestamp: '2023-06-15T09:15:00Z'
+  },
+  { 
+    id: 4, 
+    type: 'pH', 
+    severity: 'high', 
+    message: 'pH levels rising above 8.5, monitor for potential algal bloom',
+    timestamp: '2023-06-15T14:00:00Z'
+  },
+  { 
+    id: 5, 
+    type: 'nutrient', 
+    severity: 'medium', 
+    message: 'Nitrogen levels low in sector B, consider supplemental fertilization',
+    timestamp: '2023-06-15T16:30:00Z'
+  },
+  { 
+    id: 6, 
+    type: 'disease', 
+    severity: 'high', 
+    message: 'Possible ice-ice disease detected in Eucheuma farm, immediate action required',
+    timestamp: '2023-06-15T08:45:00Z'
+  },
 ];

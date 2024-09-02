@@ -1,7 +1,7 @@
-import { Button } from "../../../components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs";
-import { AquacultureMap } from './AquacultureMap';
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { AquacultureMap } from '../components/map/AquacultureMap';
 
 export const Map = () => (
   <div className="h-full flex flex-col space-y-4">

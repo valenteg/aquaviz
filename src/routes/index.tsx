@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import { RootLayout } from '@/components/layout/RootLayout';
 import { Home } from '@/pages/Home';
-import { Map } from '@/features/map/components/Map';
-import { Dashboard } from '@/features/dashboard/components/Dashboard'; // Changed to named import
+import { Map } from '@/pages/Map';
+import { Dashboard } from '@/pages/Dashboard'; 
 import { LoginForm } from '@/pages/auth/LoginPage';
 import { SignupForm } from '@/pages/auth/SignupPage';
 import { NotFound } from '@/pages/NotFound';
