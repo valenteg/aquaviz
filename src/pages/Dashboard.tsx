@@ -2,10 +2,10 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Button } from "../components/ui/button";
-import { GrowthMetricsChart } from '../components/charts/GrowthMetricsChart';
 import { EconomicInsightsChart } from '../components/charts/EconomicInsightsChart';
 import { AlertsPanel } from '../components/dashboard/AlertsPanel';
 import { EnvironmentalPanel } from '../components/dashboard/EnvironmentalPanel';
+import {ProductionPanel} from '../components/dashboard/ProductionPanel';
 
 export const Dashboard: React.FC = () => {
   return (
@@ -28,14 +28,7 @@ export const Dashboard: React.FC = () => {
           <EnvironmentalPanel />
         </TabsContent>
         <TabsContent value="production">
-          <Card>
-            <CardHeader>
-              <CardTitle>Growth Metrics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <GrowthMetricsChart data={[]} />
-            </CardContent>
-          </Card>
+          <ProductionPanel/>
         </TabsContent>
         <TabsContent value="economic">
           <Card>

@@ -21,7 +21,7 @@ export const Sidebar = ({ isExpanded, setIsExpanded }: { isExpanded: boolean; se
     >
       <div className="flex h-full flex-col">
         <div className="flex h-14 items-center justify-center lg:h-[61px]">
-          {isExpanded && <span className="text-lg font-semibold">Aquaviz</span>}
+        <img src="/logo.svg" alt="Aquaviz Logo" className="h-10 w-10 dark:invert" />
         </div>
         <ScrollArea className="flex-1 py-2">
           <nav className="space-y-1 px-2">

@@ -114,3 +114,77 @@ export const nutrientData: NutrientData[] = [
   { date: '2023-06-15', nitrate: 5.2, phosphate: 0.55 },
   { date: '2023-06-16', nitrate: 5, phosphate: 0.5 },
 ];
+
+export interface ProductionData {
+  date: string;
+  currentBiomass: number;
+  dailyGrowthRate: number;
+  projectedHarvestDate: string;
+  growthRateTrend: { date: string; rate: number }[];
+  nitrogenUptake: number;
+  phosphorusUptake: number;
+  carbonSequestration: number;
+  projectedYield: number;
+  previousYield: number;
+  temperatureImpact: number;
+  nutrientImpact: number;
+  farmProductivity: { x: number; y: number; productivity: number }[];
+  yieldTrend: { date: string; yield: number }[];
+}
+
+export const productionData: ProductionData[] = [
+  {
+    date: '2023-06-30',
+    currentBiomass: 5.2,
+    dailyGrowthRate: 3.5,
+    projectedHarvestDate: '2023-08-15',
+    growthRateTrend: [
+      { date: '2023-06-16', rate: 3.2 },
+      { date: '2023-06-17', rate: 3.3 },
+      { date: '2023-06-18', rate: 3.4 },
+      { date: '2023-06-19', rate: 3.5 },
+      { date: '2023-06-20', rate: 3.6 },
+      { date: '2023-06-21', rate: 3.5 },
+      { date: '2023-06-22', rate: 3.4 },
+      { date: '2023-06-23', rate: 3.5 },
+      { date: '2023-06-24', rate: 3.6 },
+      { date: '2023-06-25', rate: 3.7 },
+      { date: '2023-06-26', rate: 3.6 },
+      { date: '2023-06-27', rate: 3.5 },
+      { date: '2023-06-28', rate: 3.4 },
+      { date: '2023-06-29', rate: 3.5 },
+    ],
+    nitrogenUptake: 85,
+    phosphorusUptake: 75,
+    carbonSequestration: 2.1,
+    projectedYield: 12.5,
+    previousYield: 11.8,
+    temperatureImpact: 70,
+    nutrientImpact: 80,
+    farmProductivity: [
+      { x: 0, y: 0, productivity: 4.8 },
+      { x: 0, y: 1, productivity: 5.0 },
+      { x: 1, y: 0, productivity: 5.2 },
+      { x: 1, y: 1, productivity: 5.1 },
+      { x: 2, y: 0, productivity: 4.9 },
+      { x: 2, y: 1, productivity: 5.3 },
+    ],
+    yieldTrend: [
+      { date: '2023-06-16', yield: 11.8 },
+      { date: '2023-06-17', yield: 11.9 },
+      { date: '2023-06-18', yield: 12.0 },
+      { date: '2023-06-19', yield: 12.1 },
+      { date: '2023-06-20', yield: 12.2 },
+      { date: '2023-06-21', yield: 12.3 },
+      { date: '2023-06-22', yield: 12.4 },
+      { date: '2023-06-23', yield: 12.5 },
+      { date: '2023-06-24', yield: 12.6 },
+      { date: '2023-06-25', yield: 12.7 },
+      { date: '2023-06-26', yield: 12.8 },
+      { date: '2023-06-27', yield: 12.9 },
+      { date: '2023-06-28', yield: 13.0 },
+      { date: '2023-06-29', yield: 13.1 },
+    ],
+  },
+  // You can add more historical data points here if needed
+];

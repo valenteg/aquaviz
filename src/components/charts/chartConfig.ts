@@ -7,18 +7,22 @@ export const chartConfig: ChartConfig = {
   },
   salinity: {
     label: "Salinity",
-    color: "var(--chart-2)",
+    color: "hsl(var(--chart-2))",
   },
   currentSpeed: {
     label: "Current Speed",
-    color: "var(--chart-3)",
+    color: "hsl(var(--chart-3))",
   },
   lightIntensity: {
     label: "Light Intensity",
-    color: "var(--chart-4)",
+    color: "hsl(var(--chart-4))",
   },
   nutrients: {
     label: "Nutrients",
-    color: "var(--chart-5)",
+    color: "hsl(var(--chart-5))",
+  },
+  growthRate: {
+    label: "Growth Rate",
+    color: "#4CAF50", // Added for HarvestYieldPredictor
   },
 };
