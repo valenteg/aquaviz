@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ArrowUpIcon, ArrowDownIcon } from 'lucide-react';
+import { Badge } from "@/components/ui/badge";
 
 interface HarvestYieldPredictorProps {
   data: {
@@ -18,15 +19,19 @@ export const HarvestYieldPredictor: React.FC<HarvestYieldPredictorProps> = ({ da
 
   return (
     <Card className="h-full">
-      <CardHeader>
-        <CardTitle>Harvest Yield Predictor</CardTitle>
-        <CardDescription>Current yield status and projections</CardDescription>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg flex items-center justify-between">
+          Harvest Yield Predictor
+          <Badge variant={yieldChange >= 0 ? "default" : "destructive"}>
+            {yieldChange >= 0 ? "+" : "-"}{Math.abs(yieldChange).toFixed(2)}%
+          </Badge>
+        </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-sm font-medium text-muted-foreground">Projected Yield</p>
-            <p className="text-2xl font-bold">{data.projectedYield.toFixed(2)} tonnes</p>
+            <p className="text-xl font-bold">{data.projectedYield.toFixed(2)} tonnes</p>
           </div>
           <div className="flex items-center">
             <p className="text-sm font-medium text-muted-foreground mr-2">Yield Change</p>
@@ -42,34 +47,13 @@ export const HarvestYieldPredictor: React.FC<HarvestYieldPredictorProps> = ({ da
         </div>
         <div>
           <p className="text-sm font-medium text-muted-foreground mb-1">Temperature Impact</p>
-          <Progress value={data.temperatureImpact} className="h-2 bg-red-500" />
+          <Progress value={data.temperatureImpact} className="h-2" />
         </div>
         <div>
           <p className="text-sm font-medium text-muted-foreground mb-1">Nutrient Impact</p>
-          <Progress value={data.nutrientImpact} className="h-2 bg-blue-500" />
+          <Progress value={data.nutrientImpact} className="h-2" />
         </div>
-        
       </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              {yieldChange >= 0 ? (
-                <>
-                  Trending up by {yieldChange.toFixed(2)}% <ArrowUpIcon className="h-4 w-4 text-green-500" />
-                </>
-              ) : (
-                <>
-                  Trending down by {Math.abs(yieldChange).toFixed(2)}% <ArrowDownIcon className="h-4 w-4 text-red-500" />
-                </>
-              )}
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              {new Date(data.yieldTrend[0].date).toLocaleDateString()} - {new Date(data.yieldTrend[data.yieldTrend.length - 1].date).toLocaleDateString()}
-            </div>
-          </div>
-        </div>
-      </CardFooter>
     </Card>
   );
 };

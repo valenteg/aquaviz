@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Thermometer, Droplet, Wind, Sun } from 'lucide-react';
-import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts';
 
 interface EnvironmentalMetricProps {
   title: string;
@@ -9,18 +8,10 @@ interface EnvironmentalMetricProps {
   unit: string;
   type: 'temperature' | 'salinity' | 'currentSpeed' | 'lightIntensity';
   trendData?: { date: string; value: number }[];
+  icon: React.ReactNode;
 }
 
-export const EnvironmentalMetric: React.FC<EnvironmentalMetricProps> = ({ title, value, unit, type, trendData }) => {
-  const getIcon = () => {
-    switch (type) {
-      case 'temperature': return <Thermometer className="h-6 w-6" />;
-      case 'salinity': return <Droplet className="h-6 w-6" />;
-      case 'currentSpeed': return <Wind className="h-6 w-6" />;
-      case 'lightIntensity': return <Sun className="h-6 w-6" />;
-    }
-  };
-
+export const EnvironmentalMetric: React.FC<EnvironmentalMetricProps> = ({ title, value, unit, type, trendData, icon }) => {
   const getColorClass = () => {
     switch (type) {
       case 'temperature':
@@ -48,9 +39,9 @@ export const EnvironmentalMetric: React.FC<EnvironmentalMetricProps> = ({ title,
   };
 
   return (
-    <Card>
+    <Card className="hover:shadow-md transition-shadow duration-300">
       <CardContent className="flex items-center p-4">
-        <div className={`mr-4 ${getColorClass()}`}>{getIcon()}</div>
+        <div className={`mr-4 ${getColorClass()}`}>{icon}</div>
         <div className="flex-grow">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
           <p className={`text-2xl font-bold ${getColorClass()}`}>
@@ -59,9 +50,18 @@ export const EnvironmentalMetric: React.FC<EnvironmentalMetricProps> = ({ title,
           {trendData && (
             <ResponsiveContainer width="100%" height={50}>
               <LineChart data={trendData}>
-                <XAxis dataKey="date" hide />
-                <YAxis hide />
-                <Tooltip />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className="bg-background p-2 border rounded shadow">
+                          <p className="font-bold">{`${payload[0].value} ${unit}`}</p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
                 <Line type="monotone" dataKey="value" stroke={getColorValue()} strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>

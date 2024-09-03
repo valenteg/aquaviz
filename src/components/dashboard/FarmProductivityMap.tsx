@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResponsiveContainer, ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer, ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, Legend } from 'recharts';
 
 interface FarmProductivityMapProps {
   data: {
@@ -11,14 +11,17 @@ interface FarmProductivityMapProps {
 
 export const FarmProductivityMap: React.FC<FarmProductivityMapProps> = ({ data }) => {
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-        <XAxis type="number" dataKey="x" name="X" unit="m" />
-        <YAxis type="number" dataKey="y" name="Y" unit="m" />
-        <ZAxis type="number" dataKey="productivity" range={[0, 500]} name="Productivity" unit="kg/m²" />
-        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-        <Scatter name="Productivity" data={data} fill="#8884d8" />
-      </ScatterChart>
-    </ResponsiveContainer>
+    <div className="h-[400px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+          <XAxis type="number" dataKey="x" name="X" unit="m" />
+          <YAxis type="number" dataKey="y" name="Y" unit="m" />
+          <ZAxis type="number" dataKey="productivity" range={[0, 500]} name="Productivity" unit="kg/m²" />
+          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+          <Legend />
+          <Scatter name="Productivity" data={data} fill="#8884d8" />
+        </ScatterChart>
+      </ResponsiveContainer>
+    </div>
   );
 };

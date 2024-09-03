@@ -3,11 +3,11 @@ import { type ChartConfig } from "@/components/ui/chart";
 export const chartConfig: ChartConfig = {
   temperature: {
     label: "Temperature",
-    color: "#ff4d4f", // Use a hex color instead of CSS variable
+    color: "#ff4d4f",
   },
   salinity: {
     label: "Salinity",
-    color: "hsl(var(--chart-2))",
+    color: "#1890ff",
   },
   currentSpeed: {
     label: "Current Speed",

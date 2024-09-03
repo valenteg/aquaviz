@@ -1,9 +1,10 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Area, AreaChart, CartesianGrid, XAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import { Area, AreaChart, ResponsiveContainer } from 'recharts';
 import { TrendingUp, TrendingDown } from "lucide-react";
-import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+import { ChartContainer } from "@/components/ui/chart";
+import { Badge } from "@/components/ui/badge";
 
 interface SeaweedGrowthMetricsProps {
   data: {
@@ -34,41 +35,39 @@ export const SeaweedGrowthMetrics: React.FC<SeaweedGrowthMetricsProps> = ({ data
 
   return (
     <Card className="h-full">
-      <CardHeader>
-        <CardTitle>Seaweed Growth Metrics</CardTitle>
-        <CardDescription>Current growth status and projections</CardDescription>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg flex items-center justify-between">
+          Seaweed Growth Metrics
+          <Badge variant={daysUntilHarvest <= 30 ? "destructive" : "secondary"}>
+            {daysUntilHarvest} days to harvest
+          </Badge>
+        </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-sm font-medium text-muted-foreground">Current Biomass</p>
-            <p className="text-2xl font-bold">{data.currentBiomass.toFixed(2)} kg/m²</p>
+            <p className="text-xl font-bold">{data.currentBiomass.toFixed(2)} kg/m²</p>
           </div>
           <div>
             <p className="text-sm font-medium text-muted-foreground">Daily Growth Rate</p>
-            <p className={`text-2xl font-bold ${getGrowthRateColor(data.dailyGrowthRate)}`}>
+            <p className={`text-xl font-bold ${getGrowthRateColor(data.dailyGrowthRate)}`}>
               {data.dailyGrowthRate.toFixed(2)}% per day
             </p>
           </div>
         </div>
         <div>
-          <div className="flex justify-between mb-2">
+          <div className="flex justify-between mb-1">
             <p className="text-sm font-medium text-muted-foreground">Days Until Harvest</p>
             <p className="text-sm font-medium">{daysUntilHarvest} days</p>
           </div>
           <Progress value={(daysUntilHarvest / 90) * 100} className="h-2 bg-green-500" />
         </div>
         <div>
-          <p className="text-sm font-medium text-muted-foreground mb-2">14-Day Growth Rate Trend</p>
-          <ChartContainer config={chartConfig} className="h-[200px] w-full">
+          <p className="text-sm font-medium text-muted-foreground mb-1">14-Day Growth Rate Trend</p>
+          <ChartContainer config={chartConfig} className="h-[100px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data.growthRateTrend} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="date" 
-                  tickFormatter={(value) => new Date(value).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                />
-                <Tooltip content={<ChartTooltipContent indicator="line" />} />
+              <AreaChart data={data.growthRateTrend} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
                 <Area 
                   type="monotone" 
                   dataKey="rate" 
@@ -86,13 +85,15 @@ export const SeaweedGrowthMetrics: React.FC<SeaweedGrowthMetricsProps> = ({ data
           <div className="grid gap-2">
             <div className="flex items-center gap-2 font-medium leading-none">
               {growthTrend >= 0 ? (
-                <>
-                  Trending up by {growthTrend.toFixed(2)}% this period <TrendingUp className="h-4 w-4 text-green-500" />
-                </>
+                <Badge variant="secondary" className="flex items-center gap-1 bg-green-500 hover:bg-green-600">
+                  <TrendingUp className="h-4 w-4" />
+                  Up {growthTrend.toFixed(2)}%
+                </Badge>
               ) : (
-                <>
-                  Trending down by {Math.abs(growthTrend).toFixed(2)}% this period <TrendingDown className="h-4 w-4 text-red-500" />
-                </>
+                <Badge variant="destructive" className="flex items-center gap-1">
+                  <TrendingDown className="h-4 w-4" />
+                  Down {Math.abs(growthTrend).toFixed(2)}%
+                </Badge>
               )}
             </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">

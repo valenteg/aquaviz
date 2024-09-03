@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { ScrollArea } from "../ui/scroll-area";
-import { Button } from "../ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertItem } from './AlertItem';
 import { Alert, mockAlerts } from '@/data/mockData';
+import { Bell, Filter } from 'lucide-react';
 
 export const AlertsPanel: React.FC = () => {
   const [alerts, setAlerts] = useState<Alert[]>(mockAlerts);
@@ -23,9 +22,12 @@ export const AlertsPanel: React.FC = () => {
     : alerts.filter(alert => alert.type === filter);
 
   return (
-    <Card className="h-full">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle>Alerts and Notifications</CardTitle>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <Bell className="h-5 w-5 text-primary" />
+          <h2 className="text-2xl font-bold">Alerts and Notifications</h2>
+        </div>
         <div className="flex space-x-2">
           <Select onValueChange={setFilter} defaultValue="all">
             <SelectTrigger className="w-[180px]">
@@ -41,24 +43,28 @@ export const AlertsPanel: React.FC = () => {
               <SelectItem value="disease">Disease</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={handleClearAll} variant="outline">Clear All</Button>
+          <Button onClick={handleClearAll} variant="outline" size="sm">
+            Clear All
+          </Button>
         </div>
-      </CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[calc(100vh-200px)] pr-4">
-          {filteredAlerts.length > 0 ? (
-            filteredAlerts.map(alert => (
-              <AlertItem
-                key={alert.id}
-                alert={alert}
-                onMarkAsRead={() => handleMarkAsRead(alert.id)}
-              />
-            ))
-          ) : (
-            <p className="text-center text-gray-500 mt-4">No alerts to display.</p>
-          )}
-        </ScrollArea>
-      </CardContent>
-    </Card>
+      </div>
+      <div className="space-y-4">
+        {filteredAlerts.length > 0 ? (
+          filteredAlerts.map(alert => (
+            <AlertItem
+              key={alert.id}
+              alert={alert}
+              onMarkAsRead={() => handleMarkAsRead(alert.id)}
+            />
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center h-64 text-center text-gray-500">
+            <Filter className="h-12 w-12 mb-2" />
+            <p className="text-lg font-medium">No alerts to display</p>
+            <p className="text-sm">All clear! There are no active alerts at the moment.</p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };

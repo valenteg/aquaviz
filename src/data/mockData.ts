@@ -26,6 +26,34 @@ export interface Alert {
   timestamp: string;
 }
 
+export interface NutrientData {
+  date: string;
+  nitrate: number;
+  phosphate: number;
+}
+
+export interface ProductionData {
+  date: string;
+  currentBiomass: number;
+  dailyGrowthRate: number;
+  projectedHarvestDate: string;
+  growthRateTrend: { date: string; rate: number }[];
+  nitrogenUptake: number;
+  phosphorusUptake: number;
+  carbonSequestration: number;
+  projectedYield: number;
+  previousYield: number;
+  temperatureImpact: number;
+  nutrientImpact: number;
+  farmProductivity: { x: number; y: number; productivity: number }[];
+  yieldTrend: { date: string; yield: number }[];
+}
+
+export interface MarketPriceData {
+  currentPrices: { species: string; price: number }[];
+  priceHistory: { date: string; price: number; forecast: number }[];
+}
+
 export const environmentalData: EnvironmentalData[] = [
   { date: '2023-06-01', temperature: 18, salinity: 35, currentSpeed: 0.3, lightIntensity: 200 },
   { date: '2023-06-05', temperature: 19, salinity: 34, currentSpeed: 0.4, lightIntensity: 220 },
@@ -97,40 +125,18 @@ export const mockAlerts: Alert[] = [
   },
 ];
 
-// New interface for nutrient data
-export interface NutrientData {
-  date: string;
-  nitrate: number;
-  phosphate: number;
-}
-
-// New nutrientData array
 export const nutrientData: NutrientData[] = [
-  { date: '2023-06-10', nitrate: 5, phosphate: 0.5 },
+  { date: '2023-06-10', nitrate: 5.2, phosphate: 0.5 },
   { date: '2023-06-11', nitrate: 5.5, phosphate: 0.6 },
-  { date: '2023-06-12', nitrate: 6, phosphate: 0.7 },
+  { date: '2023-06-12', nitrate: 6.1, phosphate: 0.7 },
   { date: '2023-06-13', nitrate: 5.8, phosphate: 0.65 },
-  { date: '2023-06-14', nitrate: 5.5, phosphate: 0.6 },
-  { date: '2023-06-15', nitrate: 5.2, phosphate: 0.55 },
-  { date: '2023-06-16', nitrate: 5, phosphate: 0.5 },
+  { date: '2023-06-14', nitrate: 5.6, phosphate: 0.62 },
+  { date: '2023-06-15', nitrate: 5.3, phosphate: 0.58 },
+  { date: '2023-06-16', nitrate: 5.1, phosphate: 0.53 },
+  { date: '2023-06-17', nitrate: 5.4, phosphate: 0.55 },
+  { date: '2023-06-18', nitrate: 5.7, phosphate: 0.59 },
+  { date: '2023-06-19', nitrate: 5.9, phosphate: 0.63 },
 ];
-
-export interface ProductionData {
-  date: string;
-  currentBiomass: number;
-  dailyGrowthRate: number;
-  projectedHarvestDate: string;
-  growthRateTrend: { date: string; rate: number }[];
-  nitrogenUptake: number;
-  phosphorusUptake: number;
-  carbonSequestration: number;
-  projectedYield: number;
-  previousYield: number;
-  temperatureImpact: number;
-  nutrientImpact: number;
-  farmProductivity: { x: number; y: number; productivity: number }[];
-  yieldTrend: { date: string; yield: number }[];
-}
 
 export const productionData: ProductionData[] = [
   {
@@ -186,5 +192,38 @@ export const productionData: ProductionData[] = [
       { date: '2023-06-29', yield: 13.1 },
     ],
   },
-  // You can add more historical data points here if needed
 ];
+
+export const costBreakdown = [
+  { name: 'Labor', value: 30 },
+  { name: 'Materials', value: 25 },
+  { name: 'Energy', value: 20 },
+  { name: 'Maintenance', value: 15 },
+  { name: 'Other', value: 10 },
+];
+
+export const revenueFactors = [
+  { name: 'Yield', value: 70 },
+  { name: 'Market Price', value: 85 },
+  { name: 'Quality Grade', value: 90 },
+];
+
+export const farmValueComponents = [
+  { name: 'Crop', value: 500000 },
+  { name: 'Equipment', value: 300000 },
+  { name: 'Licenses', value: 100000 },
+  { name: 'Land', value: 200000 },
+];
+
+export const marketPriceData: MarketPriceData = {
+  currentPrices: [
+    { species: 'Kelp', price: 2.5 },
+    { species: 'Nori', price: 3.2 },
+    { species: 'Wakame', price: 2.8 },
+  ],
+  priceHistory: economicData.map(item => ({
+    date: item.date,
+    price: item.costPerKg * 1.5, // Assuming selling price is 1.5x cost
+    forecast: item.costPerKg * 1.6, // Mock forecast
+  })),
+};
