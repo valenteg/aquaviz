@@ -46,9 +46,9 @@ export const SignupForm = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Card className="w-[350px] shadow-lg">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
+          <Card className="w-[350px] shadow-lg bg-white/80 dark:bg-black/80 backdrop-blur-sm">
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
             <CardDescription className="text-center">Enter your details to get started</CardDescription>
           </CardHeader>
           <CardContent>

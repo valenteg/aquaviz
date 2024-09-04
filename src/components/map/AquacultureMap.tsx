@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import Map, { NavigationControl, ScaleControl, Source, Layer, MapRef, MapLayerMouseEvent, Popup } from 'react-map-gl';
+import Map, { NavigationControl, ScaleControl, Source, Layer, MapRef, MapMouseEvent, Popup } from 'react-map-gl';
 import type { FillLayerSpecification, LineLayerSpecification } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mockupFarms } from '../../data/mockFarmData';
@@ -62,7 +62,7 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
     }
   };
 
-  const onHover = useCallback((event: MapLayerMouseEvent) => {
+  const onHover = useCallback((event: MapMouseEvent) => {
     if (event.features && event.features.length > 0) {
       const feature = event.features[0];
       setHoveredFarm(feature.properties?.name || null);
@@ -77,7 +77,7 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
     }
   }, []);
 
-  const onClick = useCallback((event: MapLayerMouseEvent) => {
+  const onClick = useCallback((event: MapMouseEvent) => {
     if (event.features && event.features.length > 0) {
       const farmName = event.features[0].properties?.name;
       setSelectedFarm(farmName);
