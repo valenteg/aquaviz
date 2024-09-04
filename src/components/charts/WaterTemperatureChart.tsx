@@ -1,6 +1,6 @@
 import React from 'react';
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceLine, Tooltip } from 'recharts';
-import { EnvironmentalData } from '@/data/mockData';
+import { EnvironmentalData } from '@/data/mockDashboardData';
 import { ChartContainer } from '@/components/ui/chart';
 import { chartConfig } from '@/components/charts/chartConfig';
 

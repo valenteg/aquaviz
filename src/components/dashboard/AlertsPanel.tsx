@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertItem } from './AlertItem';
-import { Alert, mockAlerts } from '@/data/mockData';
+import { Alert, mockAlerts } from '@/data/mockDashboardData';
 import { Bell, Filter } from 'lucide-react';
 
 export const AlertsPanel: React.FC = () => {

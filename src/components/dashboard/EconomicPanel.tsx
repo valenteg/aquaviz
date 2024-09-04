@@ -4,7 +4,7 @@ import { ProductionCostAnalysis } from './ProductionCostAnalysis';
 import { RevenueProjector } from './RevenueProjector';
 import { FarmValueCalculator } from './FarmValueCalculator';
 import { MarketPriceTracker } from './MarketPriceTracker';
-import { economicData, marketPriceData } from '@/data/mockData';
+import { economicData, marketPriceData } from '@/data/mockDashboardData';
 import { DollarSign } from 'lucide-react';
 
 export const EconomicPanel: React.FC = () => {

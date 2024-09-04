@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Treemap, ResponsiveContainer, Tooltip, AreaChart, Area, XAxis, YAxis, Legend } from 'recharts';
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 import { chartConfig } from '@/components/charts/chartConfig';
-import { EconomicData, farmValueComponents } from '@/data/mockData';
+import { EconomicData, farmValueComponents } from '@/data/mockDashboardData';
 
 interface FarmValueCalculatorProps {
   data: EconomicData[];

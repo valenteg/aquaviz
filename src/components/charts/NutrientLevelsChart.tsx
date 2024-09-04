@@ -1,6 +1,6 @@
 import React from 'react';
 import { ResponsiveContainer, ComposedChart, Line, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts';
-import { NutrientData } from '@/data/mockData';
+import { NutrientData } from '@/data/mockDashboardData';
 import { ChartContainer } from '@/components/ui/chart';
 import { chartConfig } from '@/components/charts/chartConfig';
 

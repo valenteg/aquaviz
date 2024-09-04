@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid, ReferenceLine, Tooltip } from 'recharts';
-import { EnvironmentalData } from '@/data/mockData';
+import { EnvironmentalData } from '@/data/mockDashboardData';
 import { ChartContainer } from '@/components/ui/chart';
 import { chartConfig } from '@/components/charts/chartConfig';
 

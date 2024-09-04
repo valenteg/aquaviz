@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 import { chartConfig } from '@/components/charts/chartConfig';
-import { MarketPriceData } from '@/data/mockData';
+import { MarketPriceData } from '@/data/mockDashboardData';
 
 interface MarketPriceTrackerProps {
   data: MarketPriceData;

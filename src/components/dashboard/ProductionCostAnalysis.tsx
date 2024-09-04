@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, PieChart, Pie, ResponsiveContainer, Tooltip, XAxis, YAxis, Cell, Legend } from 'recharts';
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 import { chartConfig } from '@/components/charts/chartConfig';
-import { EconomicData, costBreakdown } from '@/data/mockData';
+import { EconomicData, costBreakdown } from '@/data/mockDashboardData';
 
 interface ProductionCostAnalysisProps {
   data: EconomicData[];

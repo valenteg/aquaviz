@@ -4,7 +4,7 @@ import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } fro
 import { Progress } from "@/components/ui/progress";
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 import { chartConfig } from '@/components/charts/chartConfig';
-import { EconomicData, revenueFactors } from '@/data/mockData';
+import { EconomicData, revenueFactors } from '@/data/mockDashboardData';
 
 interface RevenueProjectorProps {
   data: EconomicData[];

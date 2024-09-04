@@ -4,7 +4,7 @@ import { SeaweedGrowthMetrics } from './SeaweedGrowthMetrics';
 import { NutrientUptakeEfficiencyChart } from './NutrientUptakeEfficiencyChart';
 import { HarvestYieldPredictor } from './HarvestYieldPredictor';
 import { FarmProductivityMap } from './FarmProductivityMap';
-import { productionData } from '@/data/mockData';
+import { productionData } from '@/data/mockDashboardData';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Sprout } from 'lucide-react';
 

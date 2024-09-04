@@ -7,7 +7,7 @@ import { SalinityChart } from '../charts/SalinityChart';
 import { CurrentSpeedChart } from '../charts/CurrentSpeedChart';
 import { LightIntensityChart } from '../charts/LightIntensityChart';
 import { NutrientLevelsChart } from '../charts/NutrientLevelsChart';
-import { environmentalData, nutrientData } from '@/data/mockData';
+import { environmentalData, nutrientData } from '@/data/mockDashboardData';
 import { Droplet, Thermometer, Wind, Sun, Activity } from 'lucide-react';
 
 export const EnvironmentalPanel: React.FC = () => {

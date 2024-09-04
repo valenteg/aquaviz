@@ -1,8 +1,8 @@
 import { useState, useCallback, useRef } from 'react';
 import Map, { NavigationControl, ScaleControl, Source, Layer, MapRef, MapLayerMouseEvent } from 'react-map-gl';
-import type { FillLayer } from 'react-map-gl';
+import type { FillLayerSpecification, LineLayerSpecification } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { mockupFarms } from '../../data/mockFarmData';
+import { mockupFarms } from '../../data/mockFarmMapData';
 
 interface AquacultureMapProps {
   onLoad?: () => void;
@@ -11,27 +11,29 @@ interface AquacultureMapProps {
 const INITIAL_VIEW_STATE = {
   longitude: 173.1470,
   latitude: -41.2290,
-  zoom: 11,
-  pitch: 55.50,
+  zoom: 11.8,
+  pitch: 55.70,
   bearing: 0.00
 };
 
 const MAX_BOUNDS: [number, number, number, number] = [
-  172.9470, -41.4290, // Southwest coordinates
-  173.3470, -41.0290  // Northeast coordinates
+  172.9470, -41.4290, // Southwest 
+  173.3470, -41.0290  // Northeast 
 ];
 
 export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
   const mapRef = useRef<MapRef>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [hoveredFarm, setHoveredFarm] = useState<string | null>(null);
+  const [selectedFarm, setSelectedFarm] = useState<string | null>(null);
+  const [cursorCoordinates, setCursorCoordinates] = useState<[number, number] | null>(null);
 
   const onMapLoad = useCallback(() => {
     setMapLoaded(true);
     onLoad?.();
   }, [onLoad]);
 
-  const farmDataLayer: FillLayer = {
+  const farmDataLayer: FillLayerSpecification = {
     id: 'farm-layer',
     type: 'fill',
     source: 'farms', 
@@ -39,10 +41,22 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
       'fill-color': [
         'case',
         ['==', ['get', 'name'], hoveredFarm],
+        'rgba(0, 255, 0, 0.7)',
+        ['==', ['get', 'name'], selectedFarm],
         'rgba(0, 255, 0, 0.5)',
-        'rgba(0, 255, 0, 0.2)'
+        'rgba(0, 255, 0, 0.3)'
       ],
-      'fill-outline-color': 'green'
+      'fill-outline-color': 'rgba(0, 0, 0, 0)'
+    }
+  };
+
+  const farmOutlineLayer: LineLayerSpecification = {
+    id: 'farm-outline',
+    type: 'line',
+    source: 'farms',
+    paint: {
+      'line-color': 'green',
+      'line-width': 2
     }
   };
 
@@ -51,6 +65,34 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
       setHoveredFarm(event.features[0].properties?.name || null);
     } else {
       setHoveredFarm(null);
+    }
+    setCursorCoordinates([event.lngLat.lng, event.lngLat.lat]);
+  }, []);
+
+  const onClick = useCallback((event: MapLayerMouseEvent) => {
+    if (event.features && event.features.length > 0) {
+      const farmName = event.features[0].properties?.name;
+      setSelectedFarm(farmName);
+      
+      const farm = mockupFarms.find(f => f.properties.name === farmName);
+      if (farm && mapRef.current) {
+        const [minLng, minLat, maxLng, maxLat] = farm.geometry.coordinates[0].reduce(
+          (bounds, coord) => [
+            Math.min(bounds[0], coord[0]),
+            Math.min(bounds[1], coord[1]),
+            Math.max(bounds[2], coord[0]),
+            Math.max(bounds[3], coord[1])
+          ],
+          [Infinity, Infinity, -Infinity, -Infinity]
+        );
+
+        mapRef.current.fitBounds(
+          [[minLng, minLat], [maxLng, maxLat]],
+          { padding: 100, duration: 1000 }
+        );
+      }
+    } else {
+      setSelectedFarm(null);
     }
   }, []);
 
@@ -69,22 +111,36 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
         maxBounds={MAX_BOUNDS}
         interactiveLayerIds={['farm-layer']}
         onMouseMove={onHover}
-        onMouseLeave={() => setHoveredFarm(null)}
+        onMouseLeave={() => {
+          setHoveredFarm(null);
+          setCursorCoordinates(null);
+        }}
+        onClick={onClick}
       >
-        <NavigationControl showCompass={true} showZoom={true} visualizePitch={true} />
-        <ScaleControl />
+        <NavigationControl position="top-right" showCompass={true} showZoom={true} visualizePitch={true} />
+        <ScaleControl position="bottom-right" />
 
         {mapLoaded && (
           <Source id="farms" type="geojson" data={{ type: 'FeatureCollection', features: mockupFarms }}>
             <Layer {...farmDataLayer} />
+            <Layer {...farmOutlineLayer} />
           </Source>
         )}
       </Map>
-      {hoveredFarm && (
-        <div className="absolute bottom-4 left-4 bg-card text-card-foreground p-2 rounded shadow">
-          <p className="font-bold">{hoveredFarm}</p>
-        </div>
-      )}
+      <div className="absolute bottom-0 left-0 p-4 flex flex-col space-y-2">
+        {(hoveredFarm || selectedFarm) && (
+          <div className="bg-card text-card-foreground p-2 rounded shadow">
+            <p className="font-bold">{hoveredFarm || selectedFarm}</p>
+          </div>
+        )}
+        {cursorCoordinates && (
+          <div className="bg-card text-card-foreground p-2 rounded shadow">
+            <p className="text-sm">
+              Lon: {cursorCoordinates[0].toFixed(4)}, Lat: {cursorCoordinates[1].toFixed(4)}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
