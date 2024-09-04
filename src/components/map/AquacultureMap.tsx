@@ -1,5 +1,13 @@
-import { useState, useCallback, useRef } from 'react';
-import Map, { NavigationControl, ScaleControl, Source, Layer, MapRef, MapMouseEvent, Popup } from 'react-map-gl';
+import { useState, useCallback, useRef, lazy, Suspense } from 'react';
+import { LoadingSpinner } from '../ui/loading-spinner';
+import { MapRef } from 'react-map-gl';
+import { NavigationControl, ScaleControl } from 'react-map-gl';
+import { Source, Layer, Popup } from 'react-map-gl';
+import type { MapMouseEvent } from 'react-map-gl';
+
+
+const Map = lazy(() => import('react-map-gl'));
+
 import type { FillLayerSpecification, LineLayerSpecification } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { mockupFarms } from '../../data/mockFarmData';
@@ -105,7 +113,7 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
   }, []);
 
   return (
-    <div className="relative w-full h-full">
+    <Suspense fallback={<LoadingSpinner />}>
       <Map
         ref={mapRef}
         initialViewState={INITIAL_VIEW_STATE}
@@ -163,6 +171,6 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
           </div>
         )}
       </div>
-    </div>
+    </Suspense>
   );
 };
