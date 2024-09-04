@@ -76,7 +76,7 @@ export const LoginForm = () => {
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              <Button type="submit" className="w-full bg-primary text-white hover:bg-primary/90" disabled={isLoading}>
+              <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? <LoadingSpinner size={20} className="mr-2" /> : null}
                 {isLoading ? 'Logging in...' : 'Log In'}
               </Button>
