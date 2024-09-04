@@ -23,7 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
-aquaviz-tech-stack.md
+# Ignore all files in the aquaviz-project-context folder
+aquaviz-project-context/**
+
 .cursorrules
 
 # Environment variables
