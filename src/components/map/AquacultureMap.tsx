@@ -1,60 +1,90 @@
-import { useState, useCallback } from 'react';
-import Map, { NavigationControl, FullscreenControl } from 'react-map-gl';
+import { useState, useCallback, useRef } from 'react';
+import Map, { NavigationControl, ScaleControl, Source, Layer, MapRef, MapLayerMouseEvent } from 'react-map-gl';
+import type { FillLayer } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { mockupFarms } from '../../data/mockFarmData';
 
 interface AquacultureMapProps {
-  initialViewState?: {
-    longitude: number;
-    latitude: number;
-    zoom: number;
-  };
+  onLoad?: () => void;
 }
 
-export const AquacultureMap = ({ 
-  initialViewState = { longitude: 173.135, latitude: -41.091 , zoom: 9 } 
-}: AquacultureMapProps) => {
-  const [viewState, setViewState] = useState(initialViewState);
-  const [, setMapLoaded] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+const INITIAL_VIEW_STATE = {
+  longitude: 173.1470,
+  latitude: -41.2290,
+  zoom: 11,
+  pitch: 55.50,
+  bearing: 0.00
+};
 
-  const handleMove = useCallback(({ viewState }: { viewState: any }) => {
-    setViewState(viewState);
-  }, []);
+const MAX_BOUNDS: [number, number, number, number] = [
+  172.9470, -41.4290, // Southwest coordinates
+  173.3470, -41.0290  // Northeast coordinates
+];
 
-  const handleLoad = useCallback(() => {
+export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
+  const mapRef = useRef<MapRef>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [hoveredFarm, setHoveredFarm] = useState<string | null>(null);
+
+  const onMapLoad = useCallback(() => {
     setMapLoaded(true);
-  }, []);
+    onLoad?.();
+  }, [onLoad]);
 
-  const handleError = useCallback((e: any) => {
-    console.error('Map error:', e);
-    setError(e.message || 'An error occurred while loading the map');
-  }, []);
+  const farmDataLayer: FillLayer = {
+    id: 'farm-layer',
+    type: 'fill',
+    source: 'farms', 
+    paint: {
+      'fill-color': [
+        'case',
+        ['==', ['get', 'name'], hoveredFarm],
+        'rgba(0, 255, 0, 0.5)',
+        'rgba(0, 255, 0, 0.2)'
+      ],
+      'fill-outline-color': 'green'
+    }
+  };
 
-  if (error) {
-    return <div className="h-full w-full flex items-center justify-center text-red-500">{error}</div>;
-  }
+  const onHover = useCallback((event: MapLayerMouseEvent) => {
+    if (event.features && event.features.length > 0) {
+      setHoveredFarm(event.features[0].properties?.name || null);
+    } else {
+      setHoveredFarm(null);
+    }
+  }, []);
 
   return (
-    <div className="h-full w-full relative">
+    <div className="relative w-full h-full">
       <Map
-        {...viewState}
-        onMove={handleMove}
-        onLoad={handleLoad}
-        onError={handleError}
+        ref={mapRef}
+        initialViewState={INITIAL_VIEW_STATE}
         style={{ width: '100%', height: '100%' }}
-        mapStyle="mapbox://styles/gabvalente/cm0j87ebe021e01qqehdvgw9m"
+        mapStyle="mapbox://styles/mapbox/dark-v10"
         mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
-        initialViewState={initialViewState}
-        reuseMaps
+        onLoad={onMapLoad}
+        maxPitch={85}
+        minZoom={10}
+        maxZoom={14}
+        maxBounds={MAX_BOUNDS}
+        interactiveLayerIds={['farm-layer']}
+        onMouseMove={onHover}
+        onMouseLeave={() => setHoveredFarm(null)}
       >
-        <NavigationControl position="top-right" />
-        <FullscreenControl position="top-right" />
+        <NavigationControl showCompass={true} showZoom={true} visualizePitch={true} />
+        <ScaleControl />
+
+        {mapLoaded && (
+          <Source id="farms" type="geojson" data={{ type: 'FeatureCollection', features: mockupFarms }}>
+            <Layer {...farmDataLayer} />
+          </Source>
+        )}
       </Map>
-      <div className="absolute bottom-4 left-4 bg-white bg-opacity-80 p-2 rounded-md shadow-md">
-        <p className="text-sm font-medium">
-          Lng: {viewState.longitude.toFixed(4)} | Lat: {viewState.latitude.toFixed(4)} | Zoom: {viewState.zoom.toFixed(2)}
-        </p>
-      </div>
+      {hoveredFarm && (
+        <div className="absolute bottom-4 left-4 bg-card text-card-foreground p-2 rounded shadow">
+          <p className="font-bold">{hoveredFarm}</p>
+        </div>
+      )}
     </div>
   );
 };

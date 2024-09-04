@@ -1,55 +1,97 @@
-import { Button } from "../components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { useState } from 'react';
 import { AquacultureMap } from '../components/map/AquacultureMap';
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Download, PlusCircle, Layers, List, RefreshCw } from 'lucide-react';
 
-export const Map = () => (
-  <div className="h-full flex flex-col space-y-4">
-    <div className="flex justify-between items-center">
-      <h1 className="text-2xl font-bold">Interactive Map</h1>
-      <div className="flex space-x-2">
-        <Button variant="outline" size="sm">Export Data</Button>
-        <Button size="sm">Add Farm</Button>
+export const Map = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleMapLoad = () => {
+    setIsLoading(false);
+  };
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => setIsRefreshing(false), 1000);
+  };
+
+  return (
+    <div className="h-full flex flex-col bg-background text-foreground">
+      <div className="flex justify-between items-center p-6">
+        <h1 className="text-3xl font-bold text-primary">Interactive Map</h1>
+        <div className="flex space-x-2">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="sm" className="flex items-center">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Download current map data and farm information</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="sm" className="flex items-center">
+                  <PlusCircle className="w-4 h-4 mr-2" />
+                  Add Farm
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Add a new farm to the map</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <Button onClick={handleRefresh} disabled={isRefreshing} size="sm">
+            <RefreshCw className={`mr-2 h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            {isRefreshing ? 'Refreshing...' : 'Refresh'}
+          </Button>
+        </div>
       </div>
+      <Tabs defaultValue="map" className="flex-grow flex flex-col">
+        <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto">
+          <TabsTrigger value="map" className="text-sm">
+            <Layers className="w-4 h-4 mr-2" />
+            Map View
+          </TabsTrigger>
+          <TabsTrigger value="farms" className="text-sm">
+            <List className="w-4 h-4 mr-2" />
+            Farm List
+          </TabsTrigger>
+        </TabsList>
+        <div className="flex-grow overflow-hidden p-6">
+          <TabsContent value="map" className="h-full">
+            <Card className="h-full">
+              <CardContent className="p-0 h-full">
+                {isLoading && (
+                  <div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10">
+                    <p className="text-lg font-semibold">Loading map...</p>
+                  </div>
+                )}
+                <AquacultureMap onLoad={handleMapLoad} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="farms" className="h-full">
+            <Card className="h-full">
+              <CardHeader>
+                <CardTitle>Farm List</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>Farm list will be implemented here.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </div>
+      </Tabs>
     </div>
-    <Tabs defaultValue="map" className="flex-1 flex flex-col">
-      <TabsList className="w-full justify-start">
-        <TabsTrigger value="map">Map View</TabsTrigger>
-        <TabsTrigger value="data">Data Layers</TabsTrigger>
-        <TabsTrigger value="farms">Farm List</TabsTrigger>
-      </TabsList>
-      <TabsContent value="map" className="flex-1 mt-2">
-        <Card className="border-0 shadow-none h-full">
-          <CardContent className="p-0 h-full w-full">
-            <AquacultureMap />
-          </CardContent>
-        </Card>
-      </TabsContent>
-      <TabsContent value="data">
-        <Card>
-          <CardHeader>
-            <CardTitle>Environmental Data Layers</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="list-disc pl-5 space-y-2">
-              <li>Water Temperature</li>
-              <li>Salinity</li>
-              <li>Dissolved Oxygen</li>
-              <li>pH Levels</li>
-            </ul>
-          </CardContent>
-        </Card>
-      </TabsContent>
-      <TabsContent value="farms">
-        <Card>
-          <CardHeader>
-            <CardTitle>Farm List</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>Farm list will be implemented here.</p>
-          </CardContent>
-        </Card>
-      </TabsContent>
-    </Tabs>
-  </div>
-);
+  );
+};
