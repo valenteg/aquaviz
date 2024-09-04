@@ -1,8 +1,9 @@
 import { useState, useCallback, useRef } from 'react';
-import Map, { NavigationControl, ScaleControl, Source, Layer, MapRef, MapLayerMouseEvent } from 'react-map-gl';
+import Map, { NavigationControl, ScaleControl, Source, Layer, MapRef, MapLayerMouseEvent, Popup } from 'react-map-gl';
 import type { FillLayerSpecification, LineLayerSpecification } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { mockupFarms } from '../../data/mockFarmMapData';
+import { mockupFarms } from '../../data/mockFarmData';
+import { FarmTooltip } from './FarmTooltip';
 
 interface AquacultureMapProps {
   onLoad?: () => void;
@@ -27,6 +28,7 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
   const [hoveredFarm, setHoveredFarm] = useState<string | null>(null);
   const [selectedFarm, setSelectedFarm] = useState<string | null>(null);
   const [cursorCoordinates, setCursorCoordinates] = useState<[number, number] | null>(null);
+  const [popupInfo, setPopupInfo] = useState<{ coordinates: [number, number], properties: any } | null>(null);
 
   const onMapLoad = useCallback(() => {
     setMapLoaded(true);
@@ -62,11 +64,17 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
 
   const onHover = useCallback((event: MapLayerMouseEvent) => {
     if (event.features && event.features.length > 0) {
-      setHoveredFarm(event.features[0].properties?.name || null);
+      const feature = event.features[0];
+      setHoveredFarm(feature.properties?.name || null);
+      setCursorCoordinates([event.lngLat.lng, event.lngLat.lat]);
+      setPopupInfo({
+        coordinates: [event.lngLat.lng, event.lngLat.lat],
+        properties: feature.properties
+      });
     } else {
       setHoveredFarm(null);
+      setPopupInfo(null);
     }
-    setCursorCoordinates([event.lngLat.lng, event.lngLat.lat]);
   }, []);
 
   const onClick = useCallback((event: MapLayerMouseEvent) => {
@@ -114,6 +122,7 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
         onMouseLeave={() => {
           setHoveredFarm(null);
           setCursorCoordinates(null);
+          setPopupInfo(null);
         }}
         onClick={onClick}
       >
@@ -125,6 +134,19 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
             <Layer {...farmDataLayer} />
             <Layer {...farmOutlineLayer} />
           </Source>
+        )}
+        
+        {popupInfo && (
+          <Popup
+            longitude={popupInfo.coordinates[0]}
+            latitude={popupInfo.coordinates[1]}
+            closeButton={false}
+            closeOnClick={false}
+            anchor="top"
+            className="bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg"
+          >
+            <FarmTooltip farm={popupInfo.properties} />
+          </Popup>
         )}
       </Map>
       <div className="absolute bottom-0 left-0 p-4 flex flex-col space-y-2">

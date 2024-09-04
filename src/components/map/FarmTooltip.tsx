@@ -20,17 +20,17 @@ export const FarmTooltip: React.FC<FarmTooltipProps> = ({ farm }) => {
   };
 
   return (
-    <Card className="w-64 bg-opacity-90 backdrop-blur-sm">
+    <Card className="w-64 bg-opacity-90 backdrop-blur-sm shadow-lg rounded-lg">
       <CardContent className="p-4">
-        <h3 className="text-lg font-bold mb-2">{farm.name}</h3>
-        <p className="text-sm mb-1">Culture: {farm.cultureType}</p>
-        <p className="text-sm mb-1">
-          Temperature: <span className={getTemperatureColor(farm.waterTemperature)}>{farm.waterTemperature.toFixed(1)}°C</span>
+        <h3 className="text-lg font-bold mb-2 text-primary-foreground">{farm.name}</h3>
+        <p className="text-sm mb-1 text-secondary-foreground">Culture: {farm.cultureType}</p>
+        <p className="text-sm mb-1 text-secondary-foreground">
+          Temperature: <span className={getTemperatureColor(farm.waterTemp)}>{farm.waterTemp.toFixed(1)}°C</span>
         </p>
-        <p className="text-sm mb-1">
+        <p className="text-sm mb-1 text-secondary-foreground">
           Dissolved Oxygen: <span className={getOxygenColor(farm.dissolvedOxygen)}>{farm.dissolvedOxygen.toFixed(1)} mg/L</span>
         </p>
-        <p className="text-sm">
+        <p className="text-sm text-secondary-foreground">
           Current: {farm.currentSpeed.toFixed(1)} knots {farm.currentDirection}
         </p>
       </CardContent>
