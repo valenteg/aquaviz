@@ -41,7 +41,7 @@ export const LoginForm = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Card className="w-[350px] shadow-lg">
+        <Card className="w-[350px] shadow-lg bg-white/80 dark:bg-black/80 xc">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
             <CardDescription className="text-center">Enter your credentials to access your account</CardDescription>
@@ -76,7 +76,7 @@ export const LoginForm = () => {
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full bg-primary text-white hover:bg-primary/90" disabled={isLoading}>
                 {isLoading ? <LoadingSpinner size={20} className="mr-2" /> : null}
                 {isLoading ? 'Logging in...' : 'Log In'}
               </Button>
