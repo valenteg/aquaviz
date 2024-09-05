@@ -4,7 +4,8 @@ import { MapRef } from 'react-map-gl';
 import { NavigationControl, ScaleControl } from 'react-map-gl';
 import { Source, Layer, Popup } from 'react-map-gl';
 import type { MapMouseEvent } from 'react-map-gl';
-
+import { Info } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const Map = lazy(() => import('react-map-gl'));
 
@@ -173,6 +174,20 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
             </p>
           </div>
         )}
+      </div>
+      <div className="absolute top-4 left-4">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="bg-background/80 backdrop-blur-sm text-foreground p-2 rounded-full shadow-md">
+                <Info size={20} />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="max-w-xs">
+              <p>Hover over farm polygons to view info on culture and environmental conditions. Click to zoom in.</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );

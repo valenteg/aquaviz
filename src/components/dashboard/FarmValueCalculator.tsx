@@ -49,11 +49,11 @@ export const FarmValueCalculator: React.FC<FarmValueCalculatorProps> = ({ data }
 
   return (
     <Card className="h-full">
-      <CardHeader>
+      <CardHeader className="pb-2">
         <CardTitle className="text-xl text-primary">Farm Value Calculator</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="space-y-4">
             <div>
               <p className="text-3xl font-bold text-primary">${(latestData.projectedRevenue * 2).toLocaleString()}</p>
@@ -61,7 +61,7 @@ export const FarmValueCalculator: React.FC<FarmValueCalculatorProps> = ({ data }
             </div>
             <div>
               <p className="text-lg font-medium mb-2">Value Components</p>
-              <ResponsiveContainer width="100%" height={250}>
+              <ResponsiveContainer width="100%" height={200}>
                 <Treemap
                   data={farmValueComponents}
                   dataKey="value"
@@ -74,9 +74,9 @@ export const FarmValueCalculator: React.FC<FarmValueCalculatorProps> = ({ data }
               </ResponsiveContainer>
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <p className="text-lg font-medium">Historical Farm Value Trend</p>
-            <ChartContainer config={chartConfig} className="h-[300px]">
+            <ChartContainer config={chartConfig} className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={historicalTrend}>
                   <XAxis dataKey="date" />

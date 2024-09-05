@@ -17,18 +17,18 @@ export const ProductionCostAnalysis: React.FC<ProductionCostAnalysisProps> = ({ 
 
   return (
     <Card className="h-full">
-      <CardHeader>
+      <CardHeader className="pb-2">
         <CardTitle className="text-xl text-primary">Production Cost Analysis</CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="space-y-6">
+      <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="space-y-4">
           <div>
             <p className="text-3xl font-bold text-primary">${currentCost.toFixed(2)}/kg</p>
             <p className="text-sm text-muted-foreground">Current cost per kg</p>
           </div>
           <div>
             <p className="text-lg font-semibold mb-2">Cost Trend</p>
-            <ChartContainer config={chartConfig} className="h-[250px]">
+            <ChartContainer config={chartConfig} className="h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={costTrend}>
                   <XAxis dataKey="month" />
@@ -40,15 +40,15 @@ export const ProductionCostAnalysis: React.FC<ProductionCostAnalysisProps> = ({ 
             </ChartContainer>
           </div>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <p className="text-lg font-semibold">Cost Breakdown</p>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
                 data={costBreakdown}
                 cx="50%"
                 cy="50%"
-                outerRadius={100}
+                outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}

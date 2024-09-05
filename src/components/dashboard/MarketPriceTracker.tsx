@@ -13,14 +13,14 @@ interface MarketPriceTrackerProps {
 export const MarketPriceTracker: React.FC<MarketPriceTrackerProps> = ({ data }) => {
   return (
     <Card className="h-full">
-      <CardHeader>
+      <CardHeader className="pb-2">
         <CardTitle className="text-xl text-primary">Market Price Tracker</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="space-y-4">
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="space-y-2">
             <p className="text-lg font-medium">Current Market Prices</p>
-            <div className="max-h-[300px] overflow-y-auto">
+            <div className="max-h-[250px] overflow-y-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -39,9 +39,9 @@ export const MarketPriceTracker: React.FC<MarketPriceTrackerProps> = ({ data }) 
               </Table>
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <p className="text-lg font-medium">Price Trends and Forecast</p>
-            <ChartContainer config={chartConfig} className="h-[300px]">
+            <ChartContainer config={chartConfig} className="h-[250px]">
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={data.priceHistory}>
                   <CartesianGrid strokeDasharray="3 3" />
