@@ -4,7 +4,8 @@ import { MapRef } from 'react-map-gl';
 import { NavigationControl, ScaleControl } from 'react-map-gl';
 import { Source, Layer, Popup } from 'react-map-gl';
 import type { MapMouseEvent } from 'react-map-gl';
-
+import { Info } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const Map = lazy(() => import('react-map-gl'));
 
@@ -113,64 +114,81 @@ export const AquacultureMap: React.FC<AquacultureMapProps> = ({ onLoad }) => {
   }, []);
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <Map
-        ref={mapRef}
-        initialViewState={INITIAL_VIEW_STATE}
-        style={{ width: '100%', height: '100%' }}
-        mapStyle="mapbox://styles/mapbox/dark-v10"
-        mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
-        onLoad={onMapLoad}
-        maxPitch={85}
-        minZoom={10}
-        maxZoom={14}
-        maxBounds={MAX_BOUNDS}
-        interactiveLayerIds={['farm-layer']}
-        onMouseMove={onHover}
-        onMouseLeave={() => {
-          setHoveredFarm(null);
-          setCursorCoordinates(null);
-          setPopupInfo(null);
-        }}
-        onClick={onClick}
-      >
-        <NavigationControl position="top-right" showCompass={true} showZoom={true} visualizePitch={true} />
-        <ScaleControl position="bottom-right" />
+    <div className="relative w-full h-full">
+      <Suspense fallback={<LoadingSpinner />}>
+        <Map
+          ref={mapRef}
+          initialViewState={INITIAL_VIEW_STATE}
+          style={{ width: '100%', height: '100%' }}
+          mapStyle="mapbox://styles/mapbox/dark-v10"
+          mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
+          onLoad={onMapLoad}
+          maxPitch={85}
+          minZoom={10}
+          maxZoom={14}
+          maxBounds={MAX_BOUNDS}
+          interactiveLayerIds={['farm-layer']}
+          onMouseMove={onHover}
+          onMouseLeave={() => {
+            setHoveredFarm(null);
+            setCursorCoordinates(null);
+            setPopupInfo(null);
+          }}
+          onClick={onClick}
+        >
+          <NavigationControl position="top-right" showCompass={true} showZoom={true} visualizePitch={true} />
+          <ScaleControl position="bottom-right" />
 
-        {mapLoaded && (
-          <Source id="farms" type="geojson" data={{ type: 'FeatureCollection', features: mockupFarms }}>
-            <Layer {...farmDataLayer} />
-            <Layer {...farmOutlineLayer} />
-          </Source>
-        )}
-        
-        {popupInfo && (
-          <Popup
-            longitude={popupInfo.coordinates[0]}
-            latitude={popupInfo.coordinates[1]}
-            closeButton={false}
-            closeOnClick={false}
-            anchor="top"
-            className="bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg"
-          >
-            <FarmTooltip farm={popupInfo.properties} />
-          </Popup>
-        )}
-      </Map>
-      <div className="absolute bottom-0 left-0 p-4 flex flex-col space-y-2">
+          {mapLoaded && (
+            <Source id="farms" type="geojson" data={{ type: 'FeatureCollection', features: mockupFarms }}>
+              <Layer {...farmDataLayer} />
+              <Layer {...farmOutlineLayer} />
+            </Source>
+          )}
+          
+          {popupInfo && (
+            <Popup
+              longitude={popupInfo.coordinates[0]}
+              latitude={popupInfo.coordinates[1]}
+              closeButton={false}
+              closeOnClick={false}
+              anchor="top"
+              className="bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg"
+            >
+              <FarmTooltip farm={popupInfo.properties} />
+            </Popup>
+          )}
+        </Map>
+      </Suspense>
+      <div className="absolute bottom-4 left-4 flex flex-col space-y-2 max-w-[200px]">
         {(hoveredFarm || selectedFarm) && (
-          <div className="bg-card text-card-foreground p-2 rounded shadow">
+          <div className="bg-card text-card-foreground p-2 rounded shadow truncate">
             <p className="font-bold">{hoveredFarm || selectedFarm}</p>
           </div>
         )}
         {cursorCoordinates && (
           <div className="bg-card text-card-foreground p-2 rounded shadow">
             <p className="text-sm">
-              Lon: {cursorCoordinates[0].toFixed(4)}, Lat: {cursorCoordinates[1].toFixed(4)}
+              Lon: {cursorCoordinates[0].toFixed(4)},<br />
+              Lat: {cursorCoordinates[1].toFixed(4)}
             </p>
           </div>
         )}
       </div>
-    </Suspense>
+      <div className="absolute top-4 left-4">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="bg-background/80 backdrop-blur-sm text-foreground p-2 rounded-full shadow-md">
+                <Info size={20} />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="max-w-xs">
+              <p>Hover over farm polygons to view info on culture and environmental conditions. Click to zoom in.</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+    </div>
   );
 };

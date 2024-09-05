@@ -21,10 +21,10 @@ export const RevenueProjector: React.FC<RevenueProjectorProps> = ({ data }) => {
 
   return (
     <Card className="h-full">
-      <CardHeader>
+      <CardHeader className="pb-2">
         <CardTitle className="text-xl text-primary">Revenue Projector</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
             <p className="text-3xl font-bold text-primary">${latestData.projectedRevenue.toLocaleString()}</p>
@@ -37,19 +37,21 @@ export const RevenueProjector: React.FC<RevenueProjectorProps> = ({ data }) => {
         </div>
         <div>
           <p className="text-lg font-medium mb-2">Influencing Factors</p>
-          {revenueFactors.map((factor, index) => (
-            <div key={index} className="mb-3">
-              <div className="flex justify-between text-sm">
-                <span>{factor.name}</span>
-                <span className="font-medium">{factor.value}%</span>
+          <div className="space-y-2">
+            {revenueFactors.map((factor, index) => (
+              <div key={index}>
+                <div className="flex justify-between text-sm">
+                  <span>{factor.name}</span>
+                  <span className="font-medium">{factor.value}%</span>
+                </div>
+                <Progress value={factor.value} className="h-2" />
               </div>
-              <Progress value={factor.value} className="h-2" />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         <div>
           <p className="text-lg font-medium mb-2">Revenue Comparison</p>
-          <ChartContainer config={chartConfig} className="h-[300px]">
+          <ChartContainer config={chartConfig} className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={comparison}>
                 <XAxis dataKey="name" />
