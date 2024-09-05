@@ -32,3 +32,4 @@ aquaviz-project-context/**
 .env
 .env.*
 !.env.example
+.env.local
