@@ -1,7 +1,7 @@
 import { Button } from "../components/ui/button";
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import { ArrowRight, Map, BarChart2, Info } from 'lucide-react';
+import { ArrowRight, Map, BarChart2, Info, Beaker } from 'lucide-react';
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export const Home = () => {
         <h1 className="text-4xl font-bold tracking-tight">Welcome to Aquaviz</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">Your comprehensive aquaculture management solution.</p>
       </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-8">
         <Card className="transition-all duration-300 hover:shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -57,6 +57,22 @@ export const Home = () => {
             <p className="text-sm text-muted-foreground">Discover our project roadmap and exciting new features in development.</p>
             <Button onClick={() => navigate('/project-info')} variant="secondary" className="w-full group">
               View Project Info
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </CardContent>
+        </Card>
+        <Card className="transition-all duration-300 hover:shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Beaker className="h-6 w-6" />
+              <span>Experiments</span>
+            </CardTitle>
+            <CardDescription>Explore new features and implementations</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">Test and interact with experimental features in development.</p>
+            <Button onClick={() => navigate('/experiments')} variant="secondary" className="w-full group">
+              View Experiments
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </CardContent>

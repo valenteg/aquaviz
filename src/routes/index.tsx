@@ -8,6 +8,7 @@ const Home = lazy(() => import('@/pages/Home').then(module => ({ default: module
 const Map = lazy(() => import('@/pages/Map').then(module => ({ default: module.Map })));
 const Dashboard = lazy(() => import('@/pages/Dashboard').then(module => ({ default: module.Dashboard })));
 const ProjectInfo = lazy(() => import('@/pages/ProjectInfo').then(module => ({ default: module.ProjectInfo })));
+const Experiments = lazy(() => import('@/pages/Experiments').then(module => ({ default: module.Experiments })));
 const LoginForm = lazy(() => import('@/pages/auth/LoginPage').then(module => ({ default: module.LoginForm })));
 const SignupForm = lazy(() => import('@/pages/auth/SignupPage').then(module => ({ default: module.SignupForm })));
 const NotFound = lazy(() => import('@/pages/NotFound').then(module => ({ default: module.NotFound })));
@@ -22,6 +23,7 @@ export const AppRoutes = () => (
         <Route path="/map" element={<ProtectedRoute><Map /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/project-info" element={<ProtectedRoute><ProjectInfo /></ProtectedRoute>} />
+        <Route path="/experiments" element={<ProtectedRoute><Experiments /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
