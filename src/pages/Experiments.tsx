@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useCollections, useCollectionItems, useItemDetails, useEDRData, useEDRMetadata, EDRData } from '../hooks/useDatamesh';
-import { fetchEDRData } from '../api/edrService'; // Add this import
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { fetchEDRData } from '../api/edrService';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, ChevronRight } from "lucide-react";
+import { Loader2, ChevronRight, Info } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import type { Collection, Feature } from '../hooks/useDatamesh';
 
@@ -56,7 +57,7 @@ export const Experiments = () => {
     error: edrError 
   } = useEDRData(coords, datetime, selectedParameters, {
     enabled: selectedParameters.length > 0,
-    retry: false, // Disable automatic retries
+    retry: false,
   });
 
   const fetchEDRDataManually = () => {
@@ -77,12 +78,27 @@ export const Experiments = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
-      <h1 className="text-3xl font-bold">Datamesh API Experiment</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">Exploring the Datamesh APIs</h1>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Info className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>A space to explore and test the data retrieved from Datamesh APIs</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
       <Separator />
       <div className="grid grid-cols-12 gap-6">
         <Card className="col-span-3">
           <CardHeader>
             <CardTitle>Collections</CardTitle>
+            <CardDescription>Available data collections</CardDescription>
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[calc(100vh-300px)]">
@@ -111,6 +127,7 @@ export const Experiments = () => {
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle>Collection Items</CardTitle>
+            <CardDescription>Items within selected collection</CardDescription>
           </CardHeader>
           <CardContent>
             {itemsLoading && <LoadingSpinner message="Loading items..." />}
@@ -130,7 +147,7 @@ export const Experiments = () => {
                     >
                       <div className="flex items-center justify-between">
                         <span className="truncate">{(feature.properties as { name?: string }).name || feature.id}</span>
-                        <Badge className="ml-2 flex-shrink-0">{feature.geometry.type}</Badge>
+                        <Badge variant="secondary" className="ml-2 flex-shrink-0">{feature.geometry.type}</Badge>
                       </div>
                     </li>
                   ))}
@@ -143,6 +160,7 @@ export const Experiments = () => {
         <Card className="col-span-7">
           <CardHeader>
             <CardTitle>Item Details</CardTitle>
+            <CardDescription>Detailed information about selected item</CardDescription>
           </CardHeader>
           <CardContent>
             {detailsLoading && <LoadingSpinner message="Loading details..." />}
@@ -160,11 +178,13 @@ export const Experiments = () => {
         <Card className="col-span-12">
           <CardHeader>
             <CardTitle>EDR Data</CardTitle>
+            <CardDescription>Environmental Data Retrieval API results</CardDescription>
+            <CardDescription>oceanum_wave_glob05_era5_v1_grid</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
-                <Label htmlFor="coords">Coordinates</Label>
+                <Label htmlFor="coords">Coordinates (WKT)</Label>
                 <Input
                   id="coords"
                   value={coords}
@@ -173,7 +193,7 @@ export const Experiments = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="datetime">Datetime</Label>
+                <Label htmlFor="datetime">Date and Time (UTC)</Label>
                 <Input
                   id="datetime"
                   type="datetime-local"
@@ -199,7 +219,7 @@ export const Experiments = () => {
                       }}
                       className="form-checkbox h-4 w-4"
                     />
-                    <span>{param.description} ({param.unit.label})</span>
+                    <span className="text-sm">{param.description} ({param.unit.label})</span>
                   </label>
                 ))}
               </div>
@@ -240,7 +260,7 @@ export const Experiments = () => {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
-                      <Tooltip />
+                      <RechartsTooltip />
                       <Legend />
                       <Line type="monotone" dataKey="value" stroke="#8884d8" />
                     </LineChart>
