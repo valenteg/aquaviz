@@ -1,7 +1,7 @@
 import { Button } from "../components/ui/button";
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import { ArrowRight, Map, BarChart2, Info, Beaker } from 'lucide-react';
+import { ArrowRight, Map, BarChart2, Info, FlaskConical } from 'lucide-react';
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export const Home = () => {
         <h1 className="text-4xl font-bold tracking-tight">Welcome to Aquaviz</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">Your comprehensive aquaculture management solution.</p>
       </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-8">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 lg:gap-8">
         <Card className="transition-all duration-300 hover:shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -64,7 +64,7 @@ export const Home = () => {
         <Card className="transition-all duration-300 hover:shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Beaker className="h-6 w-6" />
+              <FlaskConical className="h-6 w-6" />
               <span>Experiments</span>
             </CardTitle>
             <CardDescription>Explore new features and implementations</CardDescription>
