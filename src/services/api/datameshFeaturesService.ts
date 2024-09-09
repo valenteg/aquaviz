@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_DATAMESH_API_URL;
+const API_BASE_URL = import.meta.env.VITE_DATAMESH_FEATURES_API_URL;
 const API_TOKEN = import.meta.env.VITE_DATAMESH_TOKEN;
 
 export async function fetchWithAuth(endpoint: string) {

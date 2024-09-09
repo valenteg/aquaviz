@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions, UseQueryResult, QueryKey } from '@tanstack/react-query';
-import { fetchCollections, fetchCollectionItems, fetchItemDetails } from '../api/datameshService';
-import { fetchEDRData, fetchEDRMetadata } from '../api/edrService';
+import { fetchCollections, fetchCollectionItems, fetchItemDetails } from '../services/api/datameshFeaturesService';
+import { fetchEDRData, fetchEDRMetadata } from '../services/api/datameshEdrService';
 
 export interface Link {
   href: string;
@@ -85,7 +85,7 @@ export function useItemDetails(collectionId: string, featureId: string, options?
   });
 }
 
-// Add this new interface for EDR data
+
 export interface EDRParameter {
   type: string;
   description: string;
@@ -113,7 +113,6 @@ export interface EDRData {
   };
 }
 
-// Update the useEDRData hook
 export function useEDRData(
   coords: string,
   datetime: string,

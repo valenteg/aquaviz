@@ -1,7 +1,7 @@
-import { EDRData, EDRMetadata } from '../hooks/useDatamesh';
+import { EDRData, EDRMetadata } from '../../hooks/useDatamesh';
 
-const EDR_API_BASE_URL = 'https://gateway.datamesh.oceanum.io/edr';
 const API_TOKEN = import.meta.env.VITE_DATAMESH_TOKEN;
+const EDR_API_BASE_URL = import.meta.env.VITE_DATAMESH_EDR_API_BASE_URL;
 
 export async function fetchEDRData(coords: string, datetime: string, parameters: string[]): Promise<EDRData> {
   const url = new URL(`${EDR_API_BASE_URL}/collections/oceanum_wave_glob05_era5_v1_grid/position`);
@@ -11,10 +11,6 @@ export async function fetchEDRData(coords: string, datetime: string, parameters:
   url.searchParams.append('f', 'json');
 
   console.log('Fetching EDR data from:', url.toString());
-  console.log('Headers:', {
-    'Authorization': `Bearer ${API_TOKEN}`,
-    'X-DATAMESH-TOKEN': API_TOKEN,
-  });
 
   try {
     const response = await fetch(url.toString(), {

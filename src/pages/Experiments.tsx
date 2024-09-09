@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useCollections, useCollectionItems, useItemDetails, useEDRData, useEDRMetadata, EDRData } from '../hooks/useDatamesh';
-import { fetchEDRData } from '../api/edrService';
+import { fetchEDRData } from '../services/api/datameshEdrService';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Loader2, ChevronRight, Info } from "lucide-react";
@@ -94,87 +94,8 @@ export const Experiments = () => {
         </TooltipProvider>
       </div>
       <Separator />
-      <div className="grid grid-cols-12 gap-6">
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Collections</CardTitle>
-            <CardDescription>Available data collections</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[calc(100vh-300px)]">
-              <ul className="space-y-2">
-                {collections.collections.map((collection: Collection) => (
-                  <li
-                    key={collection.id}
-                    className={`cursor-pointer p-2 rounded-md transition-colors ${
-                      selectedCollectionId === collection.id
-                        ? 'bg-primary text-primary-foreground'
-                        : 'hover:bg-muted'
-                    }`}
-                    onClick={() => setSelectedCollectionId(collection.id)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="truncate">{collection.title || collection.id}</span>
-                      <ChevronRight className="h-4 w-4 flex-shrink-0" />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </ScrollArea>
-          </CardContent>
-        </Card>
-
-        <Card className="col-span-2">
-          <CardHeader>
-            <CardTitle>Collection Items</CardTitle>
-            <CardDescription>Items within selected collection</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {itemsLoading && <LoadingSpinner message="Loading items..." />}
-            {itemsError && <ErrorMessage message={`Error loading items: ${itemsError.message}`} />}
-            {collectionItems && (
-              <ScrollArea className="h-[calc(100vh-300px)]">
-                <ul className="space-y-2">
-                  {collectionItems.features.map((feature: Feature) => (
-                    <li
-                      key={feature.id?.toString()}
-                      className={`cursor-pointer p-2 rounded-md transition-colors ${
-                        selectedFeatureId === feature.id?.toString()
-                          ? 'bg-primary text-primary-foreground'
-                          : 'hover:bg-muted'
-                      }`}
-                      onClick={() => setSelectedFeatureId(feature.id?.toString() || '')}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="truncate">{(feature.properties as { name?: string }).name || feature.id}</span>
-                        <Badge variant="secondary" className="ml-2 flex-shrink-0">{feature.geometry.type}</Badge>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </ScrollArea>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card className="col-span-7">
-          <CardHeader>
-            <CardTitle>Item Details</CardTitle>
-            <CardDescription>Detailed information about selected item</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {detailsLoading && <LoadingSpinner message="Loading details..." />}
-            {detailsError && <ErrorMessage message={`Error loading details: ${detailsError.message}`} />}
-            {itemDetails && (
-              <ScrollArea className="h-[calc(100vh-300px)]">
-                <pre className="bg-muted p-4 rounded-md overflow-auto text-sm">
-                  {JSON.stringify(itemDetails, null, 2)}
-                </pre>
-              </ScrollArea>
-            )}
-          </CardContent>
-        </Card>
-
+      <div className="grid grid-cols-12 gap-2">
+        
         <Card className="col-span-12">
           <CardHeader>
             <CardTitle>EDR Data</CardTitle>
@@ -273,6 +194,87 @@ export const Experiments = () => {
             )}
           </CardContent>
         </Card>
+
+        <Card className="col-span-3">
+          <CardHeader>
+            <CardTitle>Collections</CardTitle>
+            <CardDescription>Available data collections</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-[calc(100vh-300px)]">
+              <ul className="space-y-2">
+                {collections.collections.map((collection: Collection) => (
+                  <li
+                    key={collection.id}
+                    className={`cursor-pointer p-2 rounded-md transition-colors ${
+                      selectedCollectionId === collection.id
+                        ? 'bg-primary text-primary-foreground'
+                        : 'hover:bg-muted'
+                    }`}
+                    onClick={() => setSelectedCollectionId(collection.id)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="truncate">{collection.title || collection.id}</span>
+                      <ChevronRight className="h-4 w-4 flex-shrink-0" />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-2">
+          <CardHeader>
+            <CardTitle>Collection Items</CardTitle>
+            <CardDescription>Items within selected collection</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {itemsLoading && <LoadingSpinner message="Loading items..." />}
+            {itemsError && <ErrorMessage message={`Error loading items: ${itemsError.message}`} />}
+            {collectionItems && (
+              <ScrollArea className="h-[calc(100vh-300px)]">
+                <ul className="space-y-2">
+                  {collectionItems.features.map((feature: Feature) => (
+                    <li
+                      key={feature.id?.toString()}
+                      className={`cursor-pointer p-2 rounded-md transition-colors ${
+                        selectedFeatureId === feature.id?.toString()
+                          ? 'bg-primary text-primary-foreground'
+                          : 'hover:bg-muted'
+                      }`}
+                      onClick={() => setSelectedFeatureId(feature.id?.toString() || '')}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="truncate">{(feature.properties as { name?: string }).name || feature.id}</span>
+                        <Badge variant="secondary" className="ml-2 flex-shrink-0">{feature.geometry.type}</Badge>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </ScrollArea>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-7">
+          <CardHeader>
+            <CardTitle>Item Details</CardTitle>
+            <CardDescription>Detailed information about selected item</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {detailsLoading && <LoadingSpinner message="Loading details..." />}
+            {detailsError && <ErrorMessage message={`Error loading details: ${detailsError.message}`} />}
+            {itemDetails && (
+              <ScrollArea className="h-[calc(100vh-300px)]">
+                <pre className="bg-muted p-4 rounded-md overflow-auto text-sm">
+                  {JSON.stringify(itemDetails, null, 2)}
+                </pre>
+              </ScrollArea>
+            )}
+          </CardContent>
+        </Card>
+
       </div>
     </div>
   );
